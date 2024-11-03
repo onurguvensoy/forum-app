@@ -21,7 +21,8 @@ const Signup = () => {
 
   const handleError = (err) =>
     toast.error(err, {
-      position: "bottom-left",
+      position: "top-right",
+      theme: "dark",
     });
   const handleSuccess = (msg) =>
     toast.success(msg, {
@@ -59,6 +60,7 @@ const Signup = () => {
   };
 
   return (
+    <div className="container">
     <div className="form_container">
       <h2>Signup Account</h2>
       <form onSubmit={handleSubmit}>
@@ -96,9 +98,10 @@ const Signup = () => {
         <span>
           Already have an account? <Link to={"/login"}>Login</Link>
         </span>
-      </form>
-      <ToastContainer />
+      </form> 
     </div>
+    <ToastContainer />
+  </div>
     
   );
 };
