@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
 require("dotenv").config();
 const MONGO_URL = "mongodb+srv://admin:Fb1907Fb@forum-app.mcv3k.mongodb.net/?retryWrites=true&w=majority&appName=forum-app";
-const PORT = 4001;
+const PORT = 4000;
 mongoose.connect(MONGO_URL, {
   
 
@@ -20,7 +20,7 @@ app.listen(PORT, () => {
 
 app.use(
   cors({
-    origin: ["http://localhost:4001"],
+    origin: "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }));

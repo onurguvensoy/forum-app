@@ -92,13 +92,14 @@ const Signup = () => {
             onChange={handleOnChange}
           />
         </div>
-        <button type="submit">Submit</button>
+        <button onClick={handleSubmit}>Submit</button>
         <span>
           Already have an account? <Link to={"/login"}>Login</Link>
         </span>
       </form>
       <ToastContainer />
     </div>
+    
   );
 };
 
