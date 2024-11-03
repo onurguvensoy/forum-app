@@ -23,6 +23,10 @@ const Home = () => {
       return status
         ? toast(`Hello ${user}`, {
             position: "top-right",
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+            theme: "dark",
           })
         : (removeCookie("token"), navigate("/login"));
     };

@@ -28,6 +28,10 @@ const Login = () => {
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "top-right",
+      autoClose: 2000,
+      closeButton: false,
+      hideProgressBar: false,
+      theme: "dark",
     });
 
   const handleSubmit = async (e) => {

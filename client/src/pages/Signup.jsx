@@ -22,11 +22,18 @@ const Signup = () => {
   const handleError = (err) =>
     toast.error(err, {
       position: "top-right",
+      autoClose: 2000,
+      closeButton: false,
+      hideProgressBar: false,
       theme: "dark",
     });
   const handleSuccess = (msg) =>
     toast.success(msg, {
-      position: "bottom-right",
+      position: "top-right",
+      autoClose: 2000,
+      closeButton: false,
+      hideProgressBar: false,
+      theme: "dark",
     });
 
   const handleSubmit = async (e) => {
