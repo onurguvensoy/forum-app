@@ -65,6 +65,7 @@ const Login = () => {
 };
 
 return (
+<div className="form-wrapper">
   <div className="form_container">
     <h2>Login Account</h2>
     <form onSubmit={handleSubmit}>
@@ -95,6 +96,7 @@ return (
     </form>
     <ToastContainer />
   </div>
+</div> 
 );
 };
 
