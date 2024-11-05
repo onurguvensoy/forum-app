@@ -33,10 +33,7 @@ const Home = () => {
     };
     verifyCookie();
   }, [cookies, navigate, removeCookie]);
-  const Logout = () => {
-    removeCookie("token");
-    navigate("/signup");
-  };
+
   return (
    <MuiNavbar></MuiNavbar>
   );

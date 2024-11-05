@@ -15,11 +15,13 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.125),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
@@ -57,6 +59,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+  const navigate = useNavigate();
+  const [cookies, removeCookie] = useCookies([]);
+  const Logout = () => {
+    removeCookie("token");
+    navigate("/signup");
+  };
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -99,6 +107,7 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={Logout}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -156,7 +165,8 @@ export default function PrimarySearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static"
+      color='black'>
         <Toolbar>
           <IconButton
             size="large"
@@ -173,7 +183,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            MUI
+            ForWhom
           </Typography>
           <Search>
             <SearchIconWrapper>
