@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import MuiNavbar from "../components/MuiNavbar";
+import Sidebar from "../components/Sidebar";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -35,7 +36,20 @@ const Home = () => {
   }, [cookies, navigate, removeCookie]);
 
   return (
-   <MuiNavbar></MuiNavbar>
+    <div>
+      <div>
+        <MuiNavbar></MuiNavbar>
+      </div>
+      <div className="hero">
+      <div className="sidebar">
+        <Sidebar></Sidebar>
+      </div>
+      <div className="content">
+        <h1>Welcome {username}</h1>
+      </div>
+      </div>
+
+    </div>
   );
 };
 
