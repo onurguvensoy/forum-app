@@ -99,3 +99,14 @@ span a {
   gap: 1rem;
   width: 100%;
 }
+.sidebar {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 200px;
+
+}

@@ -17,7 +17,7 @@ const Home = () => {
       }
       const { data } = await axios.post(
         "http://localhost:4000",
-        {},
+        {accessToken: cookies.token},
         { withCredentials: true }
       );
       const { status, user } = data;

@@ -6,17 +6,13 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
 require("dotenv").config();
-const MONGO_URL = "mongodb+srv://admin:Fb1907Fb@forum-app.mcv3k.mongodb.net/?retryWrites=true&w=majority&appName=forum-app";
-const PORT = 4000;
+const {MONGO_URL,PORT} = process.env;
 mongoose.connect(MONGO_URL, {
-  
-
   }).then(() => console.log("MongoDB is  connected successfully"))
   .catch((err) => console.error(err));
-
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-});
+ app.listen(4000, () =>{
+  console.log(`Server is running on port ${PORT}`)
+  });
 
 app.use(
   cors({
