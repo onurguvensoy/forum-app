@@ -156,3 +156,70 @@ span a {
   }
 }
 }
+.creatingform {
+  margin-top: 10%;
+  width: 80%;
+  max-height: fit-content;
+  background-color: #2c2c2c; /* Dark background for the form */
+  color: #ffffff; /* Light text color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.creatingform label {
+  width: 100%;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d1d1d1; 
+}
+
+.creatingform input,
+.creatingform textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #3c3c3c; 
+  border: 1px solid #555555; 
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.creatingform textarea[name="content"] {
+  min-height: 200px; 
+  resize: vertical; 
+}
+.creatingform input:focus,
+.creatingform textarea:focus {
+  border-color: #8ab4f8; 
+  outline: none;
+  box-shadow: 0 0 5px rgba(138, 180, 248, 0.7); 
+}
+
+.creatingform button {
+  background-color: #4caf50;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.creatingform button:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+}
+
+.creatingform button:active {
+  background-color: #3e8e41; /* Darker green on click */
+}
+
+.creatingform textarea {
+  resize: vertical; 
+  min-height: 100px;
+}

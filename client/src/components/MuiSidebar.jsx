@@ -8,17 +8,27 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MailIcon from '@mui/icons-material/Mail';
 import Toolbar from '@mui/material/Toolbar';
-
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
-  return (
+  const navigate = useNavigate(); 
+
+  const handleHomeClick = () => {
+    navigate('/');
+  };
+
+  const handleCreateEntryClick = () => {
+    navigate('/CreateEntry');
+  };
+
+  return (  
     <div>
       <Toolbar />
       <Divider />
       <List>
-        {['Home','Top Forums','Community Chat', 'Recent Viewed'].map((text, index) => (
+        {['Home','Create Entry', 'Top Entries','Community Chat', 'Recent Viewed'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={text === 'Home' ? handleHomeClick : text === 'Create Entry' ? handleCreateEntryClick : undefined}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
