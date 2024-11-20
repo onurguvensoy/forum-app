@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import MuiNavbar from "../components/MuiNavbar";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/MuiSidebar";
+import Entries from "../components/Entries";
 
 const Home = () => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const [username, setUsername] = useState("");
+  const [username,setUsername] = useState("");
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
@@ -45,7 +46,7 @@ const Home = () => {
         <Sidebar></Sidebar>
       </div>
       <div className="content">
-        <h1>Welcome {username}</h1>
+      <Entries/>
       </div>
       </div>
 
