@@ -1,4 +1,5 @@
 const User = require("../Models/UserModel");
+const Entry = require("../Models/EntrySchema");
 const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcryptjs");
 
@@ -49,3 +50,24 @@ module.exports.Signup = async (req, res, next) => {
     console.error(error);
   }
 };
+
+module.exports.Entry = async (req, res, next) => {
+  try {
+    const { title, content, username, createdAt } = req.body;
+    const entry = await Entry.create({ title, content, username, createdAt });
+    res.status(201).json({ message: "Entry created successfully", success: true, entry });
+    next();
+  } catch (error) {
+    console.error(error);
+  }
+}
+module.exports.getAllEntries = async (req, res, next) => {
+  try {
+    const entries = await Entry.find(); // Fetch all entries from the database
+    res.status(200).json(entries);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching entries" });
+  }
+};
+

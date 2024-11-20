@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
@@ -10,7 +10,6 @@ import Entries from "../components/Entries";
 const Home = () => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
-  const [username,setUsername] = useState("");
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
@@ -22,7 +21,6 @@ const Home = () => {
         { withCredentials: true }
       );
       const { status, user } = data;
-      setUsername(user);
       return status
         ? toast(`Hello ${user}`, {
             position: "top-right",
@@ -46,7 +44,9 @@ const Home = () => {
         <Sidebar></Sidebar>
       </div>
       <div className="content">
+      <div className="entries">
       <Entries/>
+      </div>
       </div>
       </div>
 

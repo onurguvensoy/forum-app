@@ -110,3 +110,49 @@ span a {
   max-width: 200px;
 
 }
+
+
+.entry {
+  padding: 16px; 
+  border: 1px solid #e0e0e0; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  margin-bottom: 16px; 
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.entry:hover {
+  transform: scale(1.02); 
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); 
+}
+
+.entry h2 {
+  margin: 0 0 8px;
+  font-size: 1.5rem; 
+  color: #b5b3b3; 
+
+.entry p {
+  margin: 0; 
+  font-size: 1rem; 
+  color: #ffffff; 
+  line-height: 1.5; 
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 8px; 
+  }
+
+  .entry {
+    padding: 12px; 
+  }
+
+  .entry h2 {
+    font-size: 1.25rem; 
+  }
+
+  .entry p {
+    font-size: 0.9rem; 
+  }
+}
+}
