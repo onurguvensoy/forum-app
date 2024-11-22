@@ -1,25 +1,39 @@
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+
 const Form = () => {
+  const [username, setUsername] = useState(""); // Separate state for username
   const [inputValue, setInputValue] = useState({
     title: "",
     content: "",
   });
-  const { title, content } = inputValue;
-  const [username, setUsername] = useState("")
+  
+  // Fetch username on mount
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUsername = async () => {
       try {
-        const { data } = await axios.get("http://localhost:4000/user");
-        setUsername(data.username);
+        const { data } = await axios.get("http://localhost:4000/getusername", {
+          withCredentials: true, // Ensure cookies are sent with the request
+        });
+
+        if (data.status) {
+          setUsername(data.username); // Set username
+        } else {
+          console.error("Failed to fetch username");
+          toast.error("Failed to fetch username", { theme: "dark" });
+        }
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching username:", error);
+        toast.error("Error fetching username", { theme: "dark" });
       }
     };
 
-    fetchData();
+    fetchUsername();
   }, []);
+
+  const { title, content } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -46,33 +60,35 @@ const Form = () => {
       theme: "dark",
     });
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!username) {
+      handleError("Username not found. Please log in again.");
+      return;
+    }
+
     try {
       const { data } = await axios.post(
         "http://localhost:4000/entry",
         {
           ...inputValue,
-          username,
+          username: username, // Send the username
         },
         { withCredentials: true }
       );
-  
+
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
-        setTimeout(() => {}, 1000);
+        setInputValue({ title: "", content: "" }); // Reset form
       } else {
         handleError(message);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error during submission:", error);
+      handleError("Submission failed.");
     }
-    setInputValue({
-      title: "",
-      content: "",
-    });
   };
 
   return (

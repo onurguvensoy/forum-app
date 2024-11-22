@@ -59,8 +59,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
-  // cookie could be here?
-  const [removeCookie] = useCookies([]);
+  // eslint-disable-next-line
+  const [cookies, removeCookie] = useCookies([]);
   const Logout = () => {
     removeCookie("token");
     navigate("/login");

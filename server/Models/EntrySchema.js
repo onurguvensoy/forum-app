@@ -11,7 +11,7 @@ const entrySchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: [true, "Your username is required"],
+        required: [true, "Username is required"],
     },
     createdAt: {
         type: Date,

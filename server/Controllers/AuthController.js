@@ -60,7 +60,7 @@ module.exports.Entry = async (req, res, next) => {
   } catch (error) {
     console.error(error);
   }
-}
+};
 module.exports.getAllEntries = async (req, res, next) => {
   try {
     const entries = await Entry.find(); // Fetch all entries from the database
@@ -70,4 +70,19 @@ module.exports.getAllEntries = async (req, res, next) => {
     res.status(500).json({ message: "Error fetching entries" });
   }
 };
+module.exports.getCurrentlyUsername = async (req, res) => {
+  try {
+    // Access the user from the request object (set by the authentication middleware)
+    const user = req.user;
 
+    if (!user) {
+      return res.status(404).json({ status: false, message: "User not found" });
+    }
+
+    // Return the username of the currently logged-in user
+    res.status(200).json({ status: true, username: user.username });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: false, message: "Error fetching username" });
+  }
+};

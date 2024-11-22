@@ -1,7 +1,8 @@
 const e = require("express");
-const { Signup,Login,Entry,getAllEntries} = require("../Controllers/AuthController");
+const { Signup,Login,Entry,getAllEntries,getCurrentlyUsername} = require("../Controllers/AuthController");
 const router = require("express").Router();
-const {userVerification} = require("../Middlewares/AuthMiddlewares")
+const {userVerification,authenticateUser} = require("../Middlewares/AuthMiddlewares")
+router.get("/getusername",authenticateUser,getCurrentlyUsername);
 router.get("/entries", getAllEntries);
 router.post("/entry", Entry);
 router.post("/signup", Signup);
