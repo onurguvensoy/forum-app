@@ -3,22 +3,21 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 const Form = () => {
-  const [username, setUsername] = useState(""); // Separate state for username
+  const [username, setUsername] = useState("");
   const [inputValue, setInputValue] = useState({
     title: "",
     content: "",
   });
   
-  // Fetch username on mount
   useEffect(() => {
     const fetchUsername = async () => {
       try {
         const { data } = await axios.get("http://localhost:4000/getusername", {
-          withCredentials: true, // Ensure cookies are sent with the request
+          withCredentials: true, 
         });
 
         if (data.status) {
-          setUsername(data.username); // Set username
+          setUsername(data.username); 
         } else {
           console.error("Failed to fetch username");
           toast.error("Failed to fetch username", { theme: "dark" });
@@ -73,7 +72,7 @@ const Form = () => {
         "http://localhost:4000/entry",
         {
           ...inputValue,
-          username: username, // Send the username
+          username: username,
         },
         { withCredentials: true }
       );
@@ -81,7 +80,7 @@ const Form = () => {
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
-        setInputValue({ title: "", content: "" }); // Reset form
+        setInputValue({ title: "", content: "" }); 
       } else {
         handleError(message);
       }
@@ -100,15 +99,16 @@ const Form = () => {
           id="title"
           name="title"
           value={title}
-          placeholder="Please Type..."
+          placeholder="Please Type Title..."
           onChange={handleOnChange}
         />
         <label htmlFor="content">Content:</label>
-        <input
+        <textarea
           id="content"
           name="content"
           value={content}
           onChange={handleOnChange}
+          placeholder="Please Type Content..."
         />
         <button type="submit">Submit</button>
       </form>
