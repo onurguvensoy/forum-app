@@ -23,11 +23,12 @@ const Entries = () => {
       {entries.length > 0 ? (
         entries.map((entry) => (
           <Entry
-            key={entry._id}
+            _id={entry._id}
             title={entry.title}
             content={entry.content}
             username={entry.username}
           />
+        
         ))
       ) : (
         <p>No entries available</p>

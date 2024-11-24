@@ -21,7 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/CreateEntry" element={<CreateEntry />} />
-        <Route path="/:_id" element={<EntryDetail />} />
+        <Route path="/entries/:id" element={<EntryDetail/>} />
       </Routes>
     </div>
   );
