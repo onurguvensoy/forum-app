@@ -20,6 +20,9 @@ const Sidebar = () => {
   const handleCreateEntryClick = () => {
     navigate('/CreateEntry');
   };
+  const handleCommunityChatClick = () => {
+    navigate('/CommunityChat');
+  }
 
   return (  
     <div>
@@ -28,7 +31,7 @@ const Sidebar = () => {
       <List>
         {['Home','Create Entry', 'Top Entries','Community Chat', 'Recent Viewed'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton onClick={text === 'Home' ? handleHomeClick : text === 'Create Entry' ? handleCreateEntryClick : undefined}>
+            <ListItemButton onClick={text === 'Home' ? handleHomeClick : text === 'Create Entry' ? handleCreateEntryClick : text === 'Community Chat' ? handleCommunityChatClick : undefined}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
