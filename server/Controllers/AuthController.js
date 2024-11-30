@@ -1,7 +1,9 @@
 const User = require("../Models/UserModel");
 const Entry = require("../Models/EntrySchema");
+const Message = require("../Models/MessageModel");
 const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcryptjs");
+const { get } = require("mongoose");
 
 module.exports.Login = async (req, res, next) => {
     try {
@@ -70,6 +72,7 @@ module.exports.getAllEntries = async (req, res, next) => {
     res.status(500).json({ message: "Error fetching entries" });
   }
 };
+
 module.exports.getCurrentlyUsername = async (req, res) => {
   try {
 
@@ -84,5 +87,37 @@ module.exports.getCurrentlyUsername = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: false, message: "Error fetching username" });
+  }
+};
+
+module.exports.saveMessages = async (req, res, next) => {
+  try {
+    const { content, timestamp, type } = req.body;
+
+    const newMessage = await Message.create({
+      content,
+      timestamp,
+      type,
+    });
+
+    res.status(201).json({
+      message: "Message saved successfully",
+      success: true,
+      data: newMessage,
+    });
+  } catch (error) {
+    console.error("Error saving message:", error);
+    res.status(500).json({ message: "Internal server error", success: false });
+  }
+};
+
+
+module.exports.getMessages = async (req, res, next) => {
+  try {
+    const messages = await Message.find(); 
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
