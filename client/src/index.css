@@ -233,6 +233,7 @@ span a {
 
 .chat-container {
   width: 100%;
+  
   height: 600px;
   display: flex;
   flex-direction: column;
@@ -242,6 +243,7 @@ span a {
   overflow: hidden;
 }
 
+/* Header */
 .chat-header {
   padding: 15px;
   background: #252525;
@@ -254,13 +256,14 @@ span a {
   font-weight: bold;
 }
 
+/* Messages */
 .chat-messages {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
 }
 
 .message {
@@ -295,7 +298,7 @@ span a {
   color: #bbb;
 }
 
-
+/* Chat Input */
 .chat-input {
   padding: 10px;
   background: #252525;

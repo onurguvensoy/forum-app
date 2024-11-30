@@ -49,6 +49,7 @@ function Chat() {
       socket.emit("message", newMessage);
       setMessages((prevMessages) => [...prevMessages, newMessage]); 
       setMessage(""); 
+    
     }
   };
 
@@ -62,10 +63,11 @@ function Chat() {
   
       <div className="chat-messages">
         {messages.map((msg, index) => (
+        
           <div
             key={index}
             className={`message ${msg.type === "sent" ? "sent" : "received"}`}
-          >
+          >     
             <p>{msg.content}</p>
             <span className="timestamp">{username} {msg.timestamp}</span>
           </div>
