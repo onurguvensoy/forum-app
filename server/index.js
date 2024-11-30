@@ -5,18 +5,18 @@ const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
 const authRoute = require("./Routes/AuthRoute");
+
 require("dotenv").config();
-const MONGO_URL = "mongodb+srv://admin:Fb1907Fb@forum-app.mcv3k.mongodb.net/?retryWrites=true&w=majority&appName=forum-app";
-const PORT = process.env.PORT;
 
-mongoose.connect(MONGO_URL, {
-  
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
+mongoose.connect(process.env.MONGO_URL, {
   }).then(() => console.log("MongoDB is  connected successfully"))
   .catch((err) => console.error(err));
 
-app.listen(4000, () => {
-  console.log(`Server is listening on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });
 
 app.use(
@@ -26,8 +26,24 @@ app.use(
     credentials: true,
   }));
 
-  app.use(cookieParser());
+app.use(cookieParser());
 
-  app.use(express.json());
+app.use(express.json());
   
-  app.use("/", authRoute);
+app.use("/", authRoute);
+
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
