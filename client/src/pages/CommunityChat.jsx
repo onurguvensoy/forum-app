@@ -4,6 +4,7 @@ import Sidebar from '../components/MuiSidebar'
 import Chat from '../components/Chat'
 
 const CommunityChat = () => {
+ 
   return (
     <div>
     <div>
@@ -14,7 +15,7 @@ const CommunityChat = () => {
       <Sidebar></Sidebar>
     </div>
     <div className='chat'>
-        <Chat></Chat>
+      <Chat> </Chat>
     </div>
     </div>
     </div>

@@ -260,7 +260,7 @@ span a {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
 }
 
 .message {
@@ -295,7 +295,7 @@ span a {
   color: #bbb;
 }
 
-/* Chat Input */
+
 .chat-input {
   padding: 10px;
   background: #252525;

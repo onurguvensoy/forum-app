@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { CreateEntry, Login, Signup,Home,EntryDetail, CommunityChat } from "./pages";
+import { CreateEntry, Login, Signup,Home,EntryDetail,CommunityChat } from "./pages";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,8 +21,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/CreateEntry" element={<CreateEntry />} />
+        <Route path="/CommunityChat" element={<CommunityChat />} />
         <Route path="/entries/:id" element={<EntryDetail/>} />
-        <Route path="/communitychat" element={<CommunityChat />} />
+
       </Routes>
     </div>
   );
