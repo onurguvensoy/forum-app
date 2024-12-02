@@ -3,7 +3,7 @@ const Entry = require("../Models/EntrySchema");
 const Message = require("../Models/MessageModel");
 const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcryptjs");
-const { get } = require("mongoose");
+
 
 module.exports.Login = async (req, res, next) => {
     try {
@@ -94,12 +94,7 @@ module.exports.saveMessages = async (req, res, next) => {
   try {
     const { content, timestamp, type } = req.body;
 
-    const newMessage = await Message.create({
-      content,
-      timestamp,
-      type,
-    });
-
+    const newMessage = await Message.create({ content, timestamp, type, username: req.user.username});
     res.status(201).json({
       message: "Message saved successfully",
       success: true,
@@ -111,7 +106,6 @@ module.exports.saveMessages = async (req, res, next) => {
   }
 };
 
-
 module.exports.getMessages = async (req, res, next) => {
   try {
     const messages = await Message.find(); 
@@ -121,3 +115,12 @@ module.exports.getMessages = async (req, res, next) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+module.exports.getCurrentlyEntry = async (req, res) => {
+    const entry = await Entry.findById(req.params.id);
+    if (!entry) {
+      return res.status(404).json({ message: "Entry not found" });
+    }
+    res.status(200).json(entry);
+    
+}

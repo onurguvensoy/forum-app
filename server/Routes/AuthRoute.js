@@ -1,10 +1,10 @@
 const e = require("express");
-const { Signup,Login,Entry,getAllEntries,getCurrentlyUsername,saveMessages,getMessages} = require("../Controllers/AuthController");
+const { Signup,Login,Entry,getAllEntries,getCurrentlyUsername,saveMessages,getMessages,getCurrentlyEntry} = require("../Controllers/AuthController");
 const router = require("express").Router();
 const {userVerification,authenticateUser} = require("../Middlewares/AuthMiddlewares")
 router.get("/getusername",authenticateUser,getCurrentlyUsername);
 router.get("/entries", getAllEntries);
-router.get("/entry/:id", Entry);
+router.get("/entries/:id", getCurrentlyEntry);
 router.get("/getmessages",getMessages,authenticateUser);
 router.post("/entry", Entry);
 router.post("/signup", Signup);
