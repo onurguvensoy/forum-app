@@ -1,105 +1,83 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { useUser } from "../utils/UserContext";
 
-const socket = io("http://localhost:4000");
-
-function Chat() {
-  const [username, setUsername] = useState("");
+const Chat = () => {
+  const { username } = useUser(); 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [error, setError] = useState(null);
+  const socketRef = useRef(null);
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
-    const fetchUsername = async () => {
-        try {
-          const { data } = await axios.get("http://localhost:4000/getusername", {
-            withCredentials: true, 
-          });
-  
-          if (data.status) {
-            setUsername(data.username); 
-          } else {
-            console.error("Failed to fetch username");
-            toast.error("Failed to fetch username", { theme: "dark" });
-          }
-        } catch (error) {
-          console.error("Error fetching username:", error);
-          toast.error("Error fetching username", { theme: "dark" });
-        };
-        };
+    socketRef.current = io("http://localhost:4000");
 
-    const fetchData = async () => {
+    const fetchMessages = async () => {
       try {
-        const { data: userData } = await axios.get("http://localhost:4000/getusername", {
-          withCredentials: true,
-        });
-
-        if (userData.status) {
-          setUsername(userData.username);
-        } else {
-          toast.error("Failed to fetch username", { theme: "dark" });
-        }
-
-    
         const { data: messagesData } = await axios.get("http://localhost:4000/getmessages");
-        setMessages(messagesData); 
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        toast.error("Error loading chat data", { theme: "dark" });
+        setMessages(messagesData);
+      } catch (err) {
+        console.error("Error fetching messages:", err);
+        setError("Unable to load messages. Please try again later.");
       }
     };
-
-    fetchData();
-
-    fetchUsername();
-
-    socket.on("message", (data) => {
+    fetchMessages();
+    socketRef.current.on("message", (data) => {
       setMessages((prevMessages) => [...prevMessages, data]);
+      scrollToBottom();
     });
-
-    return () => socket.off("message");
+    return () => {
+      socketRef.current?.disconnect();
+    };
   }, []);
-
   const sendMessage = async () => {
-    const newMessage = {
+    if (!message.trim()) return; 
+     const newMessage = {
       content: message,
       timestamp: new Date().toISOString(),
-      type: "sent",
+      username,
     };
-  
     try {
-      const token = localStorage.getItem("token"); 
-      await axios.post("http://localhost:4000/savemessages", newMessage, {
-        headers: { Authorization: `Bearer ${token}` }, 
-      });
-      setMessages((prev) => [...prev, newMessage]); 
+      await axios.post("http://localhost:4000/savemessages", newMessage); 
+      socketRef.current.emit("message", newMessage); 
+      setMessages((prev) => [...prev, newMessage]);
       setMessage(""); 
-    } catch (error) {
-      console.error("Error sending message:", error);
+      scrollToBottom();
+    } catch (err) {
+      console.error("Error sending message:", err);
+      setError("Message could not be sent. Please try again.");
     }
   };
-  
   return (
     <div className="chat-container">
       <div className="chat-header">
         <h3>Community Chat</h3>
       </div>
-
       <div className="chat-messages">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`message ${msg.type === "sent" ? "sent" : "received"}`}
-          >
-            <p>{msg.content}</p>
-            <span className="timestamp">
-              {username} {msg.timestamp}
-            </span>
-          </div>
-        ))}
+        {messages.length > 0 ? (
+          messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`message ${msg.username === username ? "sent" : "received"}`}
+            >
+              <p>{msg.content}</p>
+              <span className="timestamp">
+                {msg.username} • {new Date(msg.timestamp).toLocaleTimeString()}
+              </span>
+            </div>
+          ))
+        ) : (
+          <p>No messages yet. Be the first to start the conversation!</p>
+        )}
+        <div ref={messagesEndRef} />
       </div>
 
+      {error && <div className="chat-error">{error}</div>}
       <div className="chat-input">
         <input
           type="text"
@@ -111,6 +89,6 @@ function Chat() {
       </div>
     </div>
   );
-}
+};
 
 export default Chat;

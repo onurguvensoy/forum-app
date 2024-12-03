@@ -1,35 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-
+import { useUser } from "../utils/UserContext";
 const Form = () => {
-  const [username, setUsername] = useState("");
+
   const [inputValue, setInputValue] = useState({
     title: "",
     content: "",
   });
   
-  useEffect(() => {
-    const fetchUsername = async () => {
-      try {
-        const { data } = await axios.get("http://localhost:4000/getusername", {
-          withCredentials: true, 
-        });
+  const { username } = useUser();
+  console.log(username);
 
-        if (data.status) {
-          setUsername(data.username); 
-        } else {
-          console.error("Failed to fetch username");
-          toast.error("Failed to fetch username", { theme: "dark" });
-        }
-      } catch (error) {
-        console.error("Error fetching username:", error);
-        toast.error("Error fetching username", { theme: "dark" });
-      }
-    };
-
-    fetchUsername();
-  }, []);
 
   const { title, content } = inputValue;
 

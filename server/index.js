@@ -25,7 +25,7 @@ mongoose
   .then(() => console.log("MongoDB is connected successfully"))
   .catch((err) => console.error(err));
 
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);
 });
 
@@ -42,19 +42,42 @@ app.use(express.json());
 app.use("/", authRoute);
 
 
-io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
+io.on('connection', socket => {
+  socket.on('user-connect', async (userData) => {
+  	userData.socketId = socket.id;
+  	usersArray.push(userData);
+  	io.sockets.emit('users-connected', usersArray);
 
+    console.log('Users online: ' + usersArray.length);
 
-  socket.on("message", (data) => {
-    console.log("Message received:", data);
-  
-    socket.broadcast.emit("message", data);
+    try {
+      const messages = await Message.find(); 
+      io.sockets.emit('old-messages', messages);
+    } catch (err) {
+      io.sockets.emit('error', err);
+    }
   });
 
+  socket.on('send-message', async (messageData) => {
+    try {
+      const newMessage = await Message.create(messageData);
+      console.log('> ' + messageData.username + ':' + messageData.message);
+      io.sockets.emit('new-message', newMessage);
+    } catch (err) {
+      console.log(err);
+      io.sockets.emit('error', err);
+    }
+  });
 
-  socket.on("disconnect", () => {
-    console.log("A user disconnected:", socket.id);
+  socket.on('disconnect', () => {
+  	usersArray.map((user, index) => {
+  	  if(usersArray[index].socketId === socket.id)
+  	  	return usersArray.splice(index, 1);
+  	});
+
+    console.log('Users online: ' + usersArray.length);
+
+  	io.sockets.emit('users-connected', usersArray);
   });
 });
 

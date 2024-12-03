@@ -92,9 +92,9 @@ module.exports.getCurrentlyUsername = async (req, res) => {
 
 module.exports.saveMessages = async (req, res, next) => {
   try {
-    const { content, timestamp, type } = req.body;
+    const { content, timestamp, username} = req.body;
 
-    const newMessage = await Message.create({ content, timestamp, type, username: req.user.username});
+    const newMessage = await Message.create({ content, timestamp, username});
     res.status(201).json({
       message: "Message saved successfully",
       success: true,
@@ -122,5 +122,5 @@ module.exports.getCurrentlyEntry = async (req, res) => {
       return res.status(404).json({ message: "Entry not found" });
     }
     res.status(200).json(entry);
-    
+
 }

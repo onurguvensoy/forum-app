@@ -6,10 +6,32 @@ import { toast } from "react-toastify";
 import MuiNavbar from "../components/MuiNavbar";
 import Sidebar from "../components/MuiSidebar";
 import Entries from "../components/Entries";
-
+import { useUser } from "../utils/UserContext";
 const Home = () => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);
+  const {setUsername } = useUser();
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:4000/getusername", {
+          withCredentials: true,
+        });
+
+        if (data.status) {
+          setUsername(data.username);
+        } else {
+          toast.error("Failed to fetch username", { theme: "dark" });
+        }
+      } catch (error) {
+        toast.error("Error fetching username", { theme: "dark" });
+      }
+    };
+
+    fetchUsername();
+  }, [setUsername]);
+
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
@@ -33,7 +55,6 @@ const Home = () => {
     };
     verifyCookie();
   }, [cookies, navigate, removeCookie]);
-
   return (
     <div>
       <div>
