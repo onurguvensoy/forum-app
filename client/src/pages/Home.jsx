@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import MuiNavbar from "../components/MuiNavbar";
 import Sidebar from "../components/MuiSidebar";
 import Entries from "../components/Entries";
-import { useUser } from "../utils/UserContext";
+import { useUser } from "../utils/userProvider";
 const Home = () => {
   const navigate = useNavigate();
   const [cookies, removeCookie] = useCookies([]);

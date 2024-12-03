@@ -1,18 +1,42 @@
 import React, { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
-import { useUser } from "../utils/UserContext";
-
+import { useUser } from "../utils/userProvider";
+import { toast } from "react-toastify";
 const Chat = () => {
-  const { username } = useUser(); 
+  const { username,setUsername } = useUser(); 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
   const socketRef = useRef(null);
   const messagesEndRef = useRef(null);
+
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:4000/getusername", {
+          withCredentials: true,
+        });
+
+        if (data.status) {
+          setUsername(data.username);
+        } else {
+          toast.error("Failed to fetch username", { theme: "dark" });
+        }
+      } catch (error) {
+        toast.error("Error fetching username", { theme: "dark" });
+      }
+    };
+
+    fetchUsername();
+  }, [setUsername]);
+
+
 
   useEffect(() => {
     socketRef.current = io("http://localhost:4000");
@@ -34,7 +58,7 @@ const Chat = () => {
     return () => {
       socketRef.current?.disconnect();
     };
-  }, []);
+  }, [messages]);
   const sendMessage = async () => {
     if (!message.trim()) return; 
      const newMessage = {
@@ -78,6 +102,7 @@ const Chat = () => {
       </div>
 
       {error && <div className="chat-error">{error}</div>}
+
       <div className="chat-input">
         <input
           type="text"
