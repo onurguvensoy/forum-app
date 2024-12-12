@@ -25,7 +25,7 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
-  marginLeft: 0,
+  marginLeft: 10,
   width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
@@ -172,8 +172,12 @@ export default function PrimarySearchAppBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ 
+              display: { xs: 'none', sm: 'block', },
+              ml: 8,
+               }}
           >
+
             ForWhom
           </Typography>
           <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>

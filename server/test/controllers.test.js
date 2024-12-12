@@ -42,6 +42,7 @@ describe("Controllers", () => {
         status: jest.fn().mockReturnThis(),
       };
 
+
       User.findOne.mockResolvedValue({ _id: "123", password: "hashedpassword" });
       bcrypt.compare.mockResolvedValue(true); 
       await Login(req, res);

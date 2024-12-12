@@ -65,9 +65,7 @@ const Home = () => {
         <Sidebar></Sidebar>
       </div>
       <div className="content">
-      <div className="entries">
       <Entries/>
-      </div>
       </div>
       </div>
 

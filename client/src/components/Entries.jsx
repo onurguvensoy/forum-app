@@ -21,7 +21,7 @@ const Entries = () => {
   return (
     <div>
       {entries.length > 0 ? (
-        entries.map((entry) => (
+        entries.reverse().map((entry) => (
           <Entry
             _id={entry._id}
             title={entry.title}
@@ -31,7 +31,7 @@ const Entries = () => {
         
         ))
       ) : (
-        <p>No entries available</p>
+        <p>Loading Please Wait...</p>
       )}
     </div>
   );
