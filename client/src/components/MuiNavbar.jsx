@@ -108,7 +108,8 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={Logout}>Log Out</MenuItem>
+      <MenuItem onClick={Logout}
+      id='logout-button'>Log Out</MenuItem>
     </Menu>
   );
 
@@ -222,6 +223,7 @@ export default function PrimarySearchAppBar() {
 
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
+              id='mobile-menu'
               size="large"
               aria-label="show more"
               aria-controls={mobileMenuId}

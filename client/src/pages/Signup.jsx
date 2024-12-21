@@ -74,6 +74,7 @@ const Signup = () => {
         <div>
           <label htmlFor="email">Email</label>
           <input
+          id="email"
             type="email"
             name="email"
             value={email}
@@ -82,8 +83,9 @@ const Signup = () => {
           />
         </div>
         <div>
-          <label htmlFor="email">Username</label>
+          <label htmlFor="username">Username</label>
           <input
+          id="username"
             type="text"
             name="username"
             value={username}
@@ -94,6 +96,7 @@ const Signup = () => {
         <div>
           <label htmlFor="password">Password</label>
           <input
+           id="password"
             type="password"
             name="password"
             value={password}
@@ -101,7 +104,8 @@ const Signup = () => {
             onChange={handleOnChange}
           />
         </div>
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={handleSubmit}
+        id="submit-button">Submit</button>
         <span>
           Already have an account? <Link to={"/login"}>Login</Link>
         </span>

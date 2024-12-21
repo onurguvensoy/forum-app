@@ -72,6 +72,7 @@ return (
       <div>
         <label htmlFor="email">Email</label>
         <input
+        id="email"
           type="email"
           name="email"
           value={email}
@@ -82,6 +83,7 @@ return (
       <div>
         <label htmlFor="password">Password</label>
         <input
+        id="password"
           type="password"
           name="password"
           value={password}
@@ -89,7 +91,9 @@ return (
           onChange={handleOnChange}
         />
       </div>
-      <button type="submit">Submit</button>
+      <button
+      id="login-button"
+       type="submit">Submit</button>
       <span>
         Already have an account? <Link to={"/signup"}>Signup</Link>
       </span>
