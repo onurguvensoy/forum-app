@@ -21,22 +21,22 @@ body {
 }
 
 .form-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 10%;
+    display: flex;
+    justify-content: center; /* Yatayda ortala */
+    align-items: center; /* Dikeyde ortala */
+    height: 100vh; /* Yüksekliði tam ekran yap */
 }
 
 .form_container {
-  background-color: #fff;
-  padding: 2rem 3rem;
-  border-radius: 0.5rem;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
+    background-color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
 }
 
 .form_container > h2 {
@@ -265,36 +265,42 @@ span a {
   gap: 20px;
 }
 
+/* Mesaj kutularý */
 .message {
-  max-width: 80%;
-  padding: 10px;
-  border-radius: 10px;
-  position: relative;
-  line-height: 1.4;
+    max-width: 80%; /* Mesaj geniþliði */
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    line-height: 1.4;
+    word-break: break-word; /* Kelimelerin satýr sonlarýnda bölünmesini saðlar */
+    overflow-wrap: break-word; /* Uzun kelimeleri bölmek için */
+    margin-bottom: 10px; /* Mesajlar arasýndaki boþluk */
 }
 
 .message p {
   margin-bottom: 5px;
 }
 
+/* Gönderilen mesajlar */
 .message.sent {
-  background: #4caf50;
-  color: #fff;
-  align-self: flex-end;
+    background: #4caf50;
+    color: #fff;
+    align-self: flex-end;
 }
 
+/* Alýnan mesajlar */
 .message.received {
-  background: #3a3a3a;
-  color: #eaeaea;
-  align-self: flex-start;
+    background: #3a3a3a;
+    color: #eaeaea;
+    align-self: flex-start;
 }
 
 .timestamp {
-  font-size: 10px;
-  position: absolute;
-  bottom: -15px;
-  right: 10px;
-  color: #bbb;
+    font-size: 12px; /* Daha belirgin boyut */
+    color: #ffcc00; /* Kontrastý artýrmak için parlak bir renk */
+    margin-top: 5px;
+    display: block;
+    text-align: right;
 }
 
 /* Chat Input */
@@ -325,6 +331,7 @@ span a {
   border: none;
   border-radius: 4px;
   background: #4caf50;
+  margin-left: 10px;
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -332,5 +339,41 @@ span a {
 }
 
 .chat-input button:hover {
-  background: #45a049;
+  background: #8ab4f8;
+}
+
+.entry-content {
+    word-break: break-word; /* Kelimelerin satýr sonlarýnda bölünmesini saðlar */
+    overflow-wrap: break-word; /* Uzun URL'lerin veya kelimelerin bölünmesini saðlar */
+    white-space: pre-wrap; /* Boþluklarý ve satýr sonlarýný korur */
+}
+
+.entry-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Öðeler arasýndaki boþluk */
+    padding: 16px; /* Ýçerik dolgu */
+    background-color: #2c2c2c; /* Hafif koyu bir arka plan */
+    border-radius: 8px; /* Köþelerin yuvarlatýlmasý */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+    color: #fff;
+    max-width: 600px;
+    margin: 0 auto; /* Ortalamak için */
+}
+
+.entry-content h2 {
+    font-size: 1.8rem;
+    color: #8ab4f8; /* Baþlýk rengi */
+    margin: 0;
+}
+
+.entry-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #d1d1d1; /* Açýk gri ton */
+    margin: 0;
+}
+
+.entry {
+    max-width: 500px // istediðiniz geniþliði girin
 }
