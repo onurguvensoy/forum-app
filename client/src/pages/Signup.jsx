@@ -11,6 +11,7 @@ const Signup = () => {
     username: "",
   });
   const { email, password, username } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -27,6 +28,7 @@ const Signup = () => {
       hideProgressBar: false,
       theme: "dark",
     });
+
   const handleSuccess = (msg) =>
     toast.success(msg, {
       position: "top-right",
@@ -41,9 +43,7 @@ const Signup = () => {
     try {
       const { data } = await axios.post(
         "http://localhost:4000/signup",
-        {
-          ...inputValue,
-        },
+        { ...inputValue },
         { withCredentials: true }
       );
       const { success, message } = data;
@@ -58,8 +58,9 @@ const Signup = () => {
     } catch (error) {
       console.log(error);
     }
+
+    // Reset form after submitting
     setInputValue({
-      ...inputValue,
       email: "",
       password: "",
       username: "",
@@ -68,52 +69,52 @@ const Signup = () => {
 
   return (
     <div className="form-wrapper">
-    <div className="form_container">
-      <h2>Signup Account</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-          id="email"
-            type="email"
-            name="email"
-            value={email}
-            placeholder="Enter your email"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-          id="username"
-            type="text"
-            name="username"
-            value={username}
-            placeholder="Enter your username"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-           id="password"
-            type="password"
-            name="password"
-            value={password}
-            placeholder="Enter your password"
-            onChange={handleOnChange}
-          />
-        </div>
-        <button onClick={handleSubmit}
-        id="submit-button">Submit</button>
-        <span>
-          Already have an account? <Link to={"/login"}>Login</Link>
-        </span>
-      </form> 
+      <div className="form_container">
+        <h2>Signup Account</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={email}
+              placeholder="Enter your email"
+              onChange={handleOnChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              name="username"
+              value={username}
+              placeholder="Enter your username"
+              onChange={handleOnChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              value={password}
+              placeholder="Enter your password"
+              onChange={handleOnChange}
+            />
+          </div>
+          <button type="submit" id="submit-button">
+            Submit
+          </button>
+          <span>
+            Already have an account? <Link to={"/login"}>Login</Link>
+          </span>
+        </form>
+      </div>
+      <ToastContainer />
     </div>
-    <ToastContainer />
-  </div>
-    
   );
 };
 

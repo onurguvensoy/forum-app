@@ -19,6 +19,7 @@ const Login = () => {
   };
   const handleError = (err) =>
     toast.error(err, {
+      className: "error-toast",
       position: "top-right",
       autoClose: 2000,
       closeButton: false,
@@ -27,8 +28,9 @@ const Login = () => {
     });
   const handleSuccess = (msg) =>
     toast.success(msg, {
+      className: "success-toast",
       position: "top-right",
-      autoClose: 2000,
+      autoClose: 10000,
       closeButton: false,
       hideProgressBar: false,
       theme: "dark",
