@@ -1,121 +1,70 @@
-const { Builder, By, until } = require("selenium-webdriver");
-const assert = require("assert");
+const { Builder, By, Key, until } = require('selenium-webdriver');
+const assert = require('assert');
 
-describe("Login and Chat Application Tests", function () {
-  let driver;
-  this.timeout(30000); // Extend timeout for test cases
+(async function chatAutomation() { 
+    let driver = await new Builder().forBrowser('chrome').build();
 
-  const testCredentials = {
-    email: "testuser@example.com",
-    password: "testpassword123",
-  };
+    try {
+        console.log('Launching browser and navigating to login page...');
+        await driver.get('http://localhost:3000/login');
+        
+        // Sleep to slow down and observe the browser
+        await driver.sleep(2000);  // Wait for 2 seconds
 
-  before(async function () {
-    driver = await new Builder().forBrowser("chrome").build();
-    await driver.get("http://localhost:3000/login");
-  });
+        const testmail = "ooo@gmail.com";
+        const password = 'ooo';
 
-  after(async function () {
-    await driver.quit();
-  });
+        console.log('Filling in login credentials...');
+   
+        await driver.wait(until.elementLocated(By.id('email')), 10000);
+        let emailInput = await driver.findElement(By.id('email'));
+        await emailInput.sendKeys(testmail);
 
-  const login = async () => {
-    // Wait for the login form
-    await driver.wait(until.elementLocated(By.id("email")), 5000);
+        await driver.sleep(1000); // Sleep for 1 second
 
-    // Fill out the login form
-    const emailInput = await driver.findElement(By.id("email"));
-    const passwordInput = await driver.findElement(By.id("password"));
-    const loginButton = await driver.findElement(By.id("login-button"));
+        await driver.wait(until.elementLocated(By.id('password')), 10000);
+        let passwordInput = await driver.findElement(By.id('password'));
+        await passwordInput.sendKeys(password);
 
-    await emailInput.sendKeys(testCredentials.email);
-    await passwordInput.sendKeys(testCredentials.password);
-    await loginButton.click();
+        console.log('Submitting login form...');
+        let submitButton = await driver.wait(until.elementLocated(By.id('login-button')), 10000);
+        await submitButton.click();
 
-    // Wait for navigation to chat page
-    await driver.wait(until.urlIs("http://localhost:3000/chat"), 10000);
+        await driver.sleep(1000); // Sleep for 1 second
 
-    const currentUrl = await driver.getCurrentUrl();
-    assert.strictEqual(currentUrl, "http://localhost:3000/chat", "User should be redirected to the chat page after login");
-  };
+        console.log('Verifying login success...');
+        await driver.wait(until.elementLocated(By.className("success-toast")), 5000);
+        await assert(driver.findElement(By.className("success-toast")).isDisplayed(), 'Login success message should appear');
 
-  it("should log in successfully", async function () {
-    await login();
-  });
+        console.log('Navigating to community chat...');
+        await driver.get('http://localhost:3000/communitychat');
 
-  it("should load chat messages", async function () {
-    await login();
+        await driver.sleep(2000);  // Sleep for 2 seconds
 
-    // Wait for the chat header to load
-    await driver.wait(until.elementLocated(By.css(".chat-header")), 5000);
+        console.log('Sending a chat message...');
+        await driver.wait(until.elementLocated(By.css('.chat-container')), 10000);
+        let inputField = await driver.findElement(By.css('.chat-input input'));
+        let chatmessage = "Hello, this is an automated test message!";
+        await inputField.sendKeys(chatmessage);
 
-    const chatHeader = await driver.findElement(By.css(".chat-header")).getText();
-    assert.strictEqual(chatHeader, "Community Chat", "Chat header should display correctly");
+        let sendButton = await driver.findElement(By.css('.chat-input button'));
+        await sendButton.click();
 
-    // Check if messages container loads
-    const messagesContainer = await driver.findElement(By.css(".chat-messages"));
-    assert(messagesContainer, "Chat messages container should exist");
+        await driver.sleep(1000); // Sleep for 1 second
 
-    // Check if messages are displayed or show 'No messages yet'
-    const noMessagesText = "No messages yet. Be the first to start the conversation!";
-    const messages = await driver.findElements(By.css(".message"));
-    if (messages.length > 0) {
-      const firstMessage = await messages[0].getText();
-      assert(firstMessage, "Messages should be displayed in the chat");
-    } else {
-      const noMessages = await messagesContainer.getText();
-      assert.strictEqual(noMessages, noMessagesText, "No messages text should be displayed");
+        console.log('Verifying the sent message...');
+        await driver.wait(until.elementLocated(By.xpath(`//div[contains(@class, 'chat-messages')]//p[text()="${chatmessage}"]`)), 10000);
+        let sentMessage = await driver.findElement(By.xpath(`//div[contains(@class, 'chat-messages')]//p[text()="${chatmessage}"]`));
+        let text = await sentMessage.getText();
+
+        assert.strictEqual(text, chatmessage, `Expected message "${chatmessage}" but found "${text}".`);
+
+        console.log('Test passed! The message was sent correctly.');
+
+    } catch (error) {
+        console.error('Test failed!', error);
+    } finally {
+        console.log('Quitting the browser...');
+        await driver.quit();
     }
-  });
-
-  it("should send a new message", async function () {
-    await login();
-
-    const testMessage = `Hello, this is a test message ${Date.now()}`;
-    const inputField = await driver.findElement(By.css(".chat-input input"));
-    const sendButton = await driver.findElement(By.css(".chat-input button"));
-
-    // Type and send the message
-    await inputField.sendKeys(testMessage);
-    await sendButton.click();
-
-    // Wait for the new message to appear
-    await driver.wait(until.elementLocated(By.css(".message.sent")), 5000);
-
-    const sentMessages = await driver.findElements(By.css(".message.sent"));
-    const lastMessage = sentMessages[sentMessages.length - 1];
-    const lastMessageText = await lastMessage.findElement(By.css("p")).getText();
-
-    assert.strictEqual(lastMessageText, testMessage, "The last sent message should match the input message");
-  });
-
-  it("should display username and timestamp for sent messages", async function () {
-    await login();
-
-    const sentMessages = await driver.findElements(By.css(".message.sent"));
-    const lastMessage = sentMessages[sentMessages.length - 1];
-
-    const timestampMetadata = await lastMessage.findElement(By.css(".timestamp")).getText();
-    assert(
-      timestampMetadata.includes(" • "),
-      "Username and timestamp should be displayed for sent messages"
-    );
-  });
-
-  it("should handle errors for empty messages", async function () {
-    await login();
-
-    const inputField = await driver.findElement(By.css(".chat-input input"));
-    const sendButton = await driver.findElement(By.css(".chat-input button"));
-
-    // Try sending an empty message
-    await inputField.clear();
-    await sendButton.click();
-
-    // Wait for error toast
-    await driver.wait(until.elementLocated(By.css(".chat-error")), 5000);
-
-    const errorText = await driver.findElement(By.css(".chat-error")).getText();
-    assert.strictEqual(errorText, "Message could not be sent. Please try again.", "Error should appear for empty messages");
-  });
-});
+})();

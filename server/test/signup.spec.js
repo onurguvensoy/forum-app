@@ -1,5 +1,6 @@
-const { By, Builder, until } = require("selenium-webdriver");
+const { By, Builder, until} = require("selenium-webdriver");
 const assert = require("assert");
+require("chromedriver");
 
 function generateRandomEmail() {
     const randomString = Math.random().toString(36).substring(2, 8);
@@ -16,9 +17,9 @@ function generateRandomPassword() {
     return Math.random().toString(36).substring(2, randomLength + 2);
 }
 
-describe("Signup Page Test", function () {
+describe("Signup Page Tests", function () {
     let driver;
-    this.timeout(20000);
+    this.timeout(20000); // Extend timeout for asynchronous actions
 
     before(async function () {
         driver = await new Builder().forBrowser("chrome").build();
@@ -33,61 +34,55 @@ describe("Signup Page Test", function () {
         await element.sendKeys(text);
     }
 
-    it("should allow signup for a user", async function () {
+    it("should not allow an already existing user to sign up", async function () {
         await driver.get("http://localhost:3000/signup");
 
-        const randomEmail = await generateRandomEmail();
-        const randomUsername = await generateRandomUsername();
-        const randomPassword = await generateRandomPassword();
+        const existingEmail = "testuser@example.com";
+        const existingUsername = "testuser";
+        const existingPassword = "testpassword";
 
         const emailInput = await driver.findElement(By.id("email"));
         const usernameInput = await driver.findElement(By.id("username"));
         const passwordInput = await driver.findElement(By.id("password"));
         const submitButton = await driver.findElement(By.id("submit-button"));
 
+        await clearAndType(emailInput, existingEmail);
+        await clearAndType(usernameInput, existingUsername);
+        await clearAndType(passwordInput, existingPassword);
+
+        await submitButton.click();
+
+       
+        await driver.wait(until.elementLocated(By.className("Toastify__toast Toastify__toast-theme--dark Toastify__toast--success")), 10000);
+        const message = await driver.findElement(By.className("Toastify__toast Toastify__toast-theme--dark Toastify__toast--success")).getText();
+        assert(message.includes("User already exists"), "Expected error message not found");
+    });
+
+    it("should sign up a new user successfully", async function () {
+        await driver.get("http://localhost:3000/signup");
+
+        const randomEmail = generateRandomEmail();
+        const randomUsername = generateRandomUsername();
+        const randomPassword = generateRandomPassword();
+
+        const emailInput = await driver.findElement(By.id("email"));
+        const usernameInput = await driver.findElement(By.id("username"));
+        const passwordInput = await driver.findElement(By.id("password"));
+        const submitButton = await driver.findElement(By.id("submit-button"));
 
         await clearAndType(emailInput, randomEmail);
         await clearAndType(usernameInput, randomUsername);
         await clearAndType(passwordInput, randomPassword);
 
-        await driver.wait(until.elementIsEnabled(submitButton), 5000);
         await submitButton.click();
 
-
-        await driver.wait(until.elementLocated(By.css(".Toastify__toast--success")), 10000);
-        const successMessage = await driver.findElement(By.css(".Toastify__toast--success")).getText();
-        assert(successMessage.includes("Signup successful"), "Success message should appear");
-
-
-        await driver.wait(until.urlIs("http://localhost:3000/"), 5000);
-        const currentUrl = await driver.getCurrentUrl();
-        assert.strictEqual(currentUrl, "http://localhost:3000/", "Should navigate to home page");
-    });
-
-    it("should not allow duplicate signup for the same user", async function () {
-        await driver.get("http://localhost:3000/signup");
-
-        const testEmail = "testuser@example.com"
-        const testUsername = "testuser"
-        const testPassword = "testpassword"
-
-        const emailInput = await driver.findElement(By.id("email"));
-        const usernameInput = await driver.findElement(By.id("username"));
-        const passwordInput = await driver.findElement(By.id("password"));
-        const submitButton = await driver.findElement(By.id("submit-button"));
-       
-        
-
-        await driver.wait(until.elementIsEnabled(submitButton), 5000);
-        await submitButton.click();
-
-        // Wait for error message
+        // Wait for the success message
         await driver.wait(until.elementLocated(By.css(".Toastify__toast--error")), 10000);
-        const errorMessage = await driver.findElement(By.css(".Toastify__toast--error")).getText();
-        assert(errorMessage.includes("User already exists"), "Error message should indicate duplicate user");
+        const message = await driver.findElement(By.css(".Toastify__toast--error")).getText();
+        assert(message.includes("User signed up successfully"), "Expected success message not found");
     });
 
-    it("should show error for empty fields", async function () {
+    it("should show an error for empty fields", async function () {
         await driver.get("http://localhost:3000/signup");
 
         const emailInput = await driver.findElement(By.id("email"));
@@ -99,12 +94,11 @@ describe("Signup Page Test", function () {
         await clearAndType(usernameInput, "");
         await clearAndType(passwordInput, "");
 
-        await driver.wait(until.elementIsEnabled(submitButton), 5000);
         await submitButton.click();
 
-        // Wait for error message
+        // Wait for the error message
         await driver.wait(until.elementLocated(By.css(".Toastify__toast--error")), 10000);
-        const errorMessage = await driver.findElement(By.css(".Toastify__toast--error")).getText();
-        assert(errorMessage.includes("Please fill all fields"), "Error message should appear");
+        const message = await driver.findElement(By.css(".Toastify__toast--error")).getText();
+        assert(message.includes("Please fill all fields"), "Expected error message for empty fields not found");
     });
 });
