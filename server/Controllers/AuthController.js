@@ -1,126 +1,168 @@
 const User = require("../Models/UserModel");
-const Entry = require("../Models/EntrySchema");
-const Message = require("../Models/MessageModel");
 const { createSecretToken } = require("../util/SecretToken");
-const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-
-module.exports.Login = async (req, res, next) => {
-    try {
-      const { email, password } = req.body;
-      if(!email || !password ){
-        return res.json({message:'All fields are required'})
-      }
-      const user = await User.findOne({ email });
-      if(!user){
-        return res.json({message:'Incorrect password or email' }) 
-      }
-      const auth = await bcrypt.compare(password,user.password)
-      if (!auth) {
-        return res.json({message:'Incorrect password or email' }) 
-      }
-       const token = createSecretToken(user._id);
-       res.cookie("token", token, {
-         withCredentials: true,
-         httpOnly: false,
-       });
-       res.status(201).json({ message: "User logged in successfully", success: true });
-       next()
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-module.exports.Signup = async (req, res, next) => {
+// Rename to match the route imports
+const login = async (req, res) => {
   try {
-    const { email, password, username, createdAt } = req.body;
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.json({ message: "User already exists" });
+    const { identifier, password } = req.body;
+    
+    if (!identifier || !password) {
+      return res.json({ message: 'All fields are required', success: false });
     }
-    const user = await User.create({ email, password, username, createdAt });
+
+    const user = await User.findOne({
+      $or: [
+        { email: identifier },
+        { phoneNumber: identifier }
+      ]
+    });
+
+    if (!user) {
+      return res.json({ message: 'Invalid credentials', success: false });
+    }
+
+    const auth = await user.comparePassword(password);
+    if (!auth) {
+      return res.json({ message: 'Invalid credentials', success: false });
+    }
+
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
       withCredentials: true,
       httpOnly: false,
+      maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
-    res
-      .status(201)
-      .json({ message: "User signed in successfully", success: true, user });
-    next();
-  } catch (error) {
-    console.error(error);
-  }
-};
 
-module.exports.Entry = async (req, res, next) => {
-  try {
-    const { title, content, username, createdAt } = req.body;
-    const entry = await Entry.create({ title, content, username, createdAt });
-    res.status(201).json({ message: "Entry created successfully", success: true, entry });
-    next();
-  } catch (error) {
-    console.error(error);
-  }
-};
-module.exports.getAllEntries = async (req, res, next) => {
-  try {
-    const entries = await Entry.find(); 
-    res.status(200).json(entries);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching entries" });
-  }
-};
-
-module.exports.getCurrentlyUsername = async (req, res) => {
-  try {
-
-    const user = req.user;
-
-    if (!user) {
-      return res.status(404).json({ status: false, message: "User not found" });
-    }
-
-
-    res.status(200).json({ status: true, username: user.username });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ status: false, message: "Error fetching username" });
-  }
-};
-
-module.exports.saveMessages = async (req, res, next) => {
-  try {
-    const { content, timestamp, username} = req.body;
-
-    const newMessage = await Message.create({ content, timestamp, username});
-    res.status(201).json({
-      message: "Message saved successfully",
+    res.status(200).json({ 
+      message: "Logged in successfully", 
       success: true,
-      data: newMessage,
+      user: {
+        id: user._id,
+        username: user.username
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      message: "An error occurred during login", 
+      success: false 
+    });
+  }
+};
+
+const signup = async (req, res, next) => {
+  try {
+    const { email, username, password, phoneNumber } = req.body;
+    
+    // Check if user already exists
+    const emailExists = await User.findOne({ email });
+    if (emailExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Email already exists"
+      });
+    }
+
+    const usernameExists = await User.findOne({ username });
+    if (usernameExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Username already exists"
+      });
+    }
+
+    const phoneExists = await User.findOne({ phoneNumber });
+    if (phoneExists) {
+      return res.status(400).json({
+        success: false,
+        message: "Phone number already registered"
+      });
+    }
+
+    // If all checks pass, create new user
+    const user = await User.create({ email, username, password, phoneNumber });
+    const token = createSecretToken(user._id);
+    
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "User created successfully",
+      user
+    });
+    
+  } catch (error) {
+    next(error);
+  }
+};
+
+const verifyUser = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.json({ status: false });
+    }
+
+    // Verify the token
+    const verified = jwt.verify(token, process.env.TOKEN_KEY);
+    if (!verified) {
+      return res.json({ status: false });
+    }
+
+    // Check if user still exists in database
+    const user = await User.findById(verified.id);
+    if (!user) {
+      return res.json({ status: false });
+    }
+
+    return res.json({ 
+      status: true,
+      user: {
+        id: user._id,
+        username: user.username
+      }
     });
   } catch (error) {
-    console.error("Error saving message:", error);
-    res.status(500).json({ message: "Internal server error", success: false });
+    console.error("Token verification error:", error);
+    return res.json({ status: false });
   }
 };
 
-module.exports.getMessages = async (req, res, next) => {
+const getUsername = async (req, res) => {
   try {
-    const messages = await Message.find(); 
-    res.status(200).json(messages);
+    const token = req.cookies.token;
+    if (!token) {
+      return res.json({ status: false });
+    }
+
+    const verified = jwt.verify(token, process.env.TOKEN_KEY);
+    if (!verified) {
+      return res.json({ status: false });
+    }
+
+    const user = await User.findById(verified.id);
+    if (!user) {
+      return res.json({ status: false });
+    }
+
+    return res.json({ 
+      status: true,
+      username: user.username
+    });
   } catch (error) {
-    console.error("Error fetching messages:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error fetching username:", error);
+    return res.json({ status: false });
   }
 };
 
-module.exports.getCurrentlyEntry = async (req, res) => {
-    const entry = await Entry.findById(req.params.id);
-    if (!entry) {
-      return res.status(404).json({ message: "Entry not found" });
-    }
-    res.status(200).json(entry);
-
-}
+module.exports = {
+  login,
+  signup,
+  verifyUser,
+  getUsername
+};
