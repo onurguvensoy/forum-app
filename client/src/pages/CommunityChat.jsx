@@ -44,7 +44,7 @@ const CommunityChat = () => {
 
         // Then get the username
         const usernameResponse = await axios.get(
-          "http://localhost:4000/api/users/me",
+          "https://forum-app-frontend-om3r.onrender.com//api/users/me",
           { withCredentials: true }
         );
 
@@ -91,7 +91,7 @@ const CommunityChat = () => {
 
     try {
       const { data } = await axios.post(
-        'http://localhost:4000/api/chat/messages',
+        'https://forum-app-frontend-om3r.onrender.com/api/chat/messages',
         { 
           content: messageInput,
           timestamp: new Date().toISOString()

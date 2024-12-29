@@ -23,7 +23,7 @@ const Home = () => {
 
       try {
         const { data } = await axios.post(
-          "http://localhost:4000/api/auth/verify",
+          "https://forum-app-frontend-om3r.onrender.com//api/auth/verify",
           {},
           { 
             withCredentials: true,

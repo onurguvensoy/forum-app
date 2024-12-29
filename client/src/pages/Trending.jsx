@@ -13,7 +13,7 @@ const Trending = () => {
     const fetchTrendingEntries = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/entries/trending",
+          "https://forum-app-frontend-om3r.onrender.com//api/entries/trending",
           { withCredentials: true }
         );
         setTrendingEntries(data);

@@ -57,7 +57,7 @@ const Entry = ({
 
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/entries/${_id}/reply`,
+        `http://:4000/api/entries/${_id}/reply`,
         { content: replyContent },
         { withCredentials: true }
       );

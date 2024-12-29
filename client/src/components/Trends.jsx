@@ -15,7 +15,7 @@ const Trends = () => {
   useEffect(() => {
     const fetchTrendingEntries = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/entries/trending');
+        const response = await axios.get('https://forum-app-frontend-om3r.onrender.com//api/entries/trending');
         setTrendingEntries(response.data);
       } catch (error) {
         console.error('Error fetching trending entries:', error);

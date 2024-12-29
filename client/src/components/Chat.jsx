@@ -24,7 +24,7 @@ const Chat = () => {
         const fetchUsername = async () => {
             try {
                 const { data } = await axios.get(
-                    "http://localhost:4000/api/auth/getusername",
+                    "https://forum-app-frontend-om3r.onrender.com//api/auth/getusername",
                     { withCredentials: true }
                 );
 
@@ -44,7 +44,7 @@ const Chat = () => {
     }, [setUsername, username]);
 
     useEffect(() => {
-        socketRef.current = io("http://localhost:4000", {
+        socketRef.current = io("https://forum-app-frontend-om3r.onrender.com/", {
             withCredentials: true
         });
 
