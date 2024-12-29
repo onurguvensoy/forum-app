@@ -195,11 +195,21 @@ const Entry = ({
     }
   };
 
+  const handleUsernameClick = (e, clickedUsername) => {
+    e.stopPropagation(); // Prevent entry click event
+    navigate(`/profile/${clickedUsername}`);
+  };
+
   return (
     <div className="entry" onClick={!isDetailView ? handleEntryClick : undefined}>
       <div className="entry-header">
         <h3 className="entry-title">{title}</h3>
-        <span className="entry-username">@{username}</span>
+        <span 
+          className="entry-username clickable" 
+          onClick={(e) => handleUsernameClick(e, username)}
+        >
+          @{username}
+        </span>
       </div>
       <p className="entry-content">{content}</p>
       <div className="entry-actions">
@@ -241,7 +251,12 @@ const Entry = ({
               entryReplies.map((reply, index) => (
                 <div key={reply._id || index} className="reply-item">
                   <div className="reply-header">
-                    <span className="reply-username">@{reply.username}</span>
+                    <span 
+                      className="reply-username clickable"
+                      onClick={(e) => handleUsernameClick(e, reply.username)}
+                    >
+                      @{reply.username}
+                    </span>
                     <span className="reply-date">
                       {new Date(reply.createdAt).toLocaleDateString()}
                     </span>
@@ -275,7 +290,12 @@ const Entry = ({
             entryReplies.map((reply, index) => (
               <div key={reply._id || index} className="reply-item">
                 <div className="reply-header">
-                  <span className="reply-username">@{reply.username}</span>
+                  <span 
+                    className="reply-username clickable"
+                    onClick={(e) => handleUsernameClick(e, reply.username)}
+                  >
+                    @{reply.username}
+                  </span>
                   <span className="reply-date">
                     {new Date(reply.createdAt).toLocaleDateString()}
                   </span>

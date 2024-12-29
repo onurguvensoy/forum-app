@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useUser } from '../utils/userProvider';
 import { 
   Home,
   TrendingUp,
@@ -17,6 +18,7 @@ import './Sidebar.css';
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { username } = useUser();
 
   const menuItems = [
     { icon: <Home />, text: 'Home', path: '/' },
@@ -25,10 +27,15 @@ const Sidebar = () => {
     { icon: <Chat />, text: 'Community Chat', path: '/community-chat' },
     { icon: <Bookmark />, text: 'Bookmarks', path: '/bookmarks' },
     { icon: <Notifications />, text: 'Notifications', path: '/notifications' },
-    { icon: <Person />, text: 'Profile', path: '/profile' },
+    { icon: <Person />, text: 'Profile', path: `/profile/${username}` },
   ];
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    if (path.startsWith('/profile/')) {
+      return location.pathname.startsWith('/profile/');
+    }
+    return location.pathname === path;
+  };
 
   return (
     <div className="sidebar">
@@ -38,6 +45,7 @@ const Sidebar = () => {
             key={item.path}
             className={`menu-item ${isActive(item.path) ? 'active' : ''}`}
             onClick={() => navigate(item.path)}
+            disabled={item.path.includes('/profile/') && !username}
           >
             {item.icon}
             <span>{item.text}</span>

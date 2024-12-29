@@ -151,46 +151,27 @@ const Signup = () => {
     }
 
     try {
-      const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
-      const fullPhoneNumber = `${selectedCountry}${cleanPhoneNumber}`;
-      
       const { data } = await axios.post(
         "http://localhost:4000/api/auth/signup",
         {
-          email,
           username,
-          password,
-          phoneNumber: fullPhoneNumber,
+          email,
+          phoneNumber: phoneNumber.replace(/\D/g, ''),
+          password
         },
         { withCredentials: true }
       );
 
       if (data.success) {
-        handleSuccess("Account created successfully! Redirecting...");
+        handleSuccess("Account created successfully!");
         setTimeout(() => {
           navigate("/");
-        }, 1500);
+        }, 500);
       }
     } catch (error) {
       if (error.response?.data?.message) {
-        // Handle specific error messages from server
-        const errorMessage = error.response.data.message;
-        
-        if (errorMessage.includes("duplicate key")) {
-          if (errorMessage.toLowerCase().includes("email")) {
-            handleError("This email is already registered");
-          } else if (errorMessage.toLowerCase().includes("username")) {
-            handleError("This username is already taken");
-          } else if (errorMessage.toLowerCase().includes("phonenumber")) {
-            handleError("This phone number is already registered");
-          }
-        } else if (errorMessage.includes("validation failed")) {
-          handleError("Please check your input and try again");
-        } else {
-          handleError(errorMessage);
-        }
+        handleError(error.response.data.message);
       } else if (error.request) {
-        // Network error
         handleError("Unable to connect to server. Please check your internet connection");
       } else {
         handleError("Something went wrong. Please try again later");

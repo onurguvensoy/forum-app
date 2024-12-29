@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 // Rename to match the route imports
 const login = async (req, res) => {
   try {
-    const { identifier, password } = req.body;
+    const { identifier, password, rememberMe } = req.body;
     
     if (!identifier || !password) {
       return res.json({ message: 'All fields are required', success: false });
@@ -28,11 +28,15 @@ const login = async (req, res) => {
     }
 
     const token = createSecretToken(user._id);
-    res.cookie("token", token, {
+    
+    // Set cookie options based on rememberMe
+    const cookieOptions = {
       withCredentials: true,
       httpOnly: false,
-      maxAge: 24 * 60 * 60 * 1000 // 1 day
-    });
+      maxAge: rememberMe ? 365 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000 // 1 year : 1 day
+    };
+
+    res.cookie("token", token, cookieOptions);
 
     res.status(200).json({ 
       message: "Logged in successfully", 
@@ -160,9 +164,26 @@ const getUsername = async (req, res) => {
   }
 };
 
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({ 
+      message: "Logged out successfully", 
+      success: true 
+    });
+  } catch (error) {
+    console.error("Logout error:", error);
+    res.status(500).json({ 
+      message: "Error during logout", 
+      success: false 
+    });
+  }
+};
+
 module.exports = {
   login,
   signup,
   verifyUser,
-  getUsername
+  getUsername,
+  logout
 };

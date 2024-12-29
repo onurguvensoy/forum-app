@@ -7,13 +7,19 @@ const {
   createEntry,
   likeEntry,
   dislikeEntry,
-  addReply
+  addReply,
+  getUserEntries,
+  getUserReplies,
+  searchContent
 } = require("../Controllers/EntryController");
 const { authenticateUser } = require("../Middlewares/AuthMiddleware");
 
 // Public routes
 router.get("/", getAllEntries);
+router.get("/search", searchContent);
 router.get("/trending", getTrendingEntries);
+router.get("/user/:username", getUserEntries);
+router.get("/replies/:username", getUserReplies);
 router.get("/:id", getEntry);
 
 // Protected routes (require authentication)

@@ -7,6 +7,7 @@ import Signup from "./pages/Signup";
 import EntryDetails from "./pages/EntryDetails";
 import CommunityChat from "./pages/CommunityChat";
 import Trending from "./pages/Trending";
+import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/trending" element={<Trending />} />
+        <Route path="/profile/:username" element={<Profile />} />
         <Route path="/entry/:id" element={
           <ProtectedRoute>
             <EntryDetails />

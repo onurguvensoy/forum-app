@@ -2,7 +2,8 @@ const Message = require("../Models/MessageModel");
 
 exports.saveMessage = async (req, res) => {
   try {
-    const { content, timestamp, username } = req.body;
+    const { content, timestamp } = req.body;
+    const username = req.user.username;
 
     const newMessage = await Message.create({ 
       content, 
@@ -26,7 +27,7 @@ exports.saveMessage = async (req, res) => {
 
 exports.getMessages = async (req, res) => {
   try {
-    const messages = await Message.find();
+    const messages = await Message.find().sort({ timestamp: 1 });
     res.status(200).json(messages);
   } catch (error) {
     console.error("Error fetching messages:", error);

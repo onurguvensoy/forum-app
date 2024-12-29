@@ -43,9 +43,10 @@ body {
   position: relative;
   margin: 0;
   padding: 0;
-  width: auto;
+  width: 100%;
   height: calc(100vh - 64px);
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: #333333 #1a1a1a;
   border-left: 1px solid rgba(255, 255, 255, 0.1);
@@ -53,10 +54,15 @@ body {
   background-color: #111111;
   z-index: 5;
   grid-column: 2;
+  max-width: 800px;
+  box-sizing: border-box;
 }
 
 .entries-section > * {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
 }
 
 .entries-section > *:last-child {
@@ -67,12 +73,15 @@ body {
   position: relative;
   margin: 0;
   padding: 0;
-  width: auto;
+  width: 100%;
   height: calc(100vh - 64px);
   overflow-y: auto;
+  overflow-x: hidden;
   background-color: #111111;
   z-index: 5;
   grid-column: 2;
+  max-width: 800px;
+  box-sizing: border-box;
 }
 
 .trends-section {
@@ -94,7 +103,7 @@ body {
   
   .entries-section,
   .main-content {
-    width: auto;
+    width: 100%;
     margin: 0;
     max-width: 800px;
   }
@@ -125,7 +134,7 @@ body {
   .main-content {
     margin: 0;
     padding: 0;
-    width: auto;
+    width: 100%;
     height: auto;
     border: none;
   }

@@ -1,16 +1,16 @@
 const jwt = require('jsonwebtoken');
 
 exports.validateMessage = (req, res, next) => {
-  const { content, username } = req.body;
+  const { content } = req.body;
 
-  if (!content || !username) {
+  if (!content || !content.trim()) {
     return res.status(400).json({
-      message: "Message content and username are required",
+      message: "Message content is required",
       success: false
     });
   }
 
-  if (content.length > 500) { // Example max length
+  if (content.length > 500) {
     return res.status(400).json({
       message: "Message is too long",
       success: false

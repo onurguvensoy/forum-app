@@ -11,6 +11,7 @@ const Login = () => {
     identifier: "",
     password: "",
   });
+  const [rememberMe, setRememberMe] = useState(false);
   const [errors, setErrors] = useState({});
 
   const { identifier, password } = inputValue;
@@ -78,14 +79,16 @@ const Login = () => {
         {
           identifier: identifier.includes('@') ? identifier : identifier.replace(/\D/g, ''),
           password,
+          rememberMe
         },
         { withCredentials: true }
       );
 
       if (data.success) {
-        handleSuccess("Login successful! Redirecting...");
+        handleSuccess("Login successful!");
+        setTimeout(() => {
           navigate("/");
-       
+        }, 500);
       }
     } catch (error) {
       if (error.response?.data?.message) {
@@ -175,6 +178,17 @@ const Login = () => {
             className={errors.password ? "error" : ""}
           />
           {errors.password && <span className="error-message">{errors.password}</span>}
+        </div>
+
+        <div className="form-group remember-me">
+          <label className="checkbox-label">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            <span>Remember me</span>
+          </label>
         </div>
 
         <button type="submit" className="submit-btn" onClick={handleSubmit}>

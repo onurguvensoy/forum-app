@@ -33,6 +33,19 @@
   color: #888;
 }
 
+.entry-username.clickable,
+.reply-username.clickable {
+  cursor: pointer;
+  color: #2563eb;
+  transition: color 0.2s;
+}
+
+.entry-username.clickable:hover,
+.reply-username.clickable:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
 .entry-content {
   margin: 12px 0;
   line-height: 1.6;

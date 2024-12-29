@@ -249,6 +249,108 @@ const addReply = async (req, res) => {
   }
 };
 
+// Get entries by username
+const getUserEntries = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const entries = await Entry.find({ username })
+      .select('title content username createdAt viewCount likes dislikes likedBy dislikedBy replies')
+      .sort({ createdAt: -1 });
+
+    // Add user's interaction state if authenticated
+    const userId = req.user ? req.user._id.toString() : null;
+    const entriesWithState = entries.map(entry => ({
+      ...entry.toObject(),
+      hasLiked: userId ? entry.likedBy.includes(userId) : false,
+      hasDisliked: userId ? entry.dislikedBy.includes(userId) : false
+    }));
+
+    res.json(entriesWithState);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get entries where user has replied
+const getUserReplies = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const entries = await Entry.find({ 
+      'replies.username': username 
+    })
+    .select('title content username createdAt viewCount likes dislikes likedBy dislikedBy replies')
+    .sort({ 'replies.createdAt': -1 });
+
+    // Add user's interaction state if authenticated
+    const userId = req.user ? req.user._id.toString() : null;
+    const entriesWithState = entries.map(entry => {
+      const entryObj = entry.toObject();
+      // Filter replies to only show the user's replies
+      entryObj.replies = entryObj.replies.filter(reply => reply.username === username);
+      return {
+        ...entryObj,
+        hasLiked: userId ? entry.likedBy.includes(userId) : false,
+        hasDisliked: userId ? entry.dislikedBy.includes(userId) : false
+      };
+    });
+
+    res.json(entriesWithState);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Search entries and users
+const searchContent = async (req, res) => {
+  try {
+    const { query } = req.query;
+    if (!query) {
+      return res.json([]);
+    }
+
+    // Create case-insensitive regex for search
+    const searchRegex = new RegExp(query, 'i');
+
+    // Search in entries
+    const entries = await Entry.find({
+      $or: [
+        { title: searchRegex },
+        { content: searchRegex }
+      ]
+    })
+    .select('title content username createdAt viewCount likes dislikes')
+    .sort({ createdAt: -1 })
+    .limit(20);
+
+    // Get unique usernames that match the search
+    const uniqueUsers = await Entry.distinct('username', {
+      username: searchRegex
+    });
+
+    // Format user results
+    const userResults = uniqueUsers.map(username => ({
+      _id: `user_${username}`, // Create a unique ID for users
+      username,
+      type: 'user',
+      matchType: 'username'
+    }));
+
+    // Format entry results
+    const entryResults = entries.map(entry => ({
+      ...entry.toObject(),
+      type: 'entry',
+      matchType: entry.title.match(searchRegex) ? 'title' : 'content'
+    }));
+
+    // Combine results, putting users first
+    const formattedResults = [...userResults, ...entryResults];
+
+    res.json(formattedResults);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllEntries,
   getTrendingEntries,
@@ -256,5 +358,8 @@ module.exports = {
   createEntry,
   likeEntry,
   dislikeEntry,
-  addReply
+  addReply,
+  getUserEntries,
+  getUserReplies,
+  searchContent
 };

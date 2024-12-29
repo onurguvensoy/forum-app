@@ -15,6 +15,30 @@ const getCurrentlyUsername = async (req, res) => {
   }
 };
 
+const getUserProfile = async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username })
+      .select('username email createdAt')
+      .lean();
+
+    if (!user) {
+      return res.status(404).json({ 
+        status: false, 
+        message: "User not found" 
+      });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ 
+      status: false, 
+      message: "Error fetching user profile" 
+    });
+  }
+};
+
 const checkUser = async (req, res) => {
   try {
     const { email, username } = req.body;
@@ -49,5 +73,6 @@ const checkUser = async (req, res) => {
 
 module.exports = {
   getCurrentlyUsername,
-  checkUser
+  checkUser,
+  getUserProfile
 };

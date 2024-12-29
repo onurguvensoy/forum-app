@@ -68,13 +68,19 @@ const Trending = () => {
     <Layout>
       <div className="entries-container">
         <h1 className="trending-title">Trending Entries</h1>
-        {trendingEntries.map((entry) => (
-          <Entry
-            key={entry._id}
-            {...entry}
-            onUpdate={handleEntryUpdate}
-          />
-        ))}
+        {trendingEntries.length > 0 ? (
+          trendingEntries.map((entry, index) => (
+            <Entry
+              key={entry._id}
+              {...entry}
+              onUpdate={handleEntryUpdate}
+            />
+          ))
+        ) : (
+          <div className="no-entries">
+            No trending entries yet. Be the first to create a popular entry!
+          </div>
+        )}
       </div>
     </Layout>
   );
