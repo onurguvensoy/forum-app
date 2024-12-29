@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://onurguvensoy.github.io/forum-app",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.13.5",
@@ -33,10 +32,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "build": "react-scripts build",
     "test": "mocha",
     "eject": "react-scripts eject"
   },
