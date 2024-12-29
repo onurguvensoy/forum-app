@@ -1,11 +1,11 @@
 {
   "files": {
     "main.css": "/forum-app/static/css/main.96437dfd.css",
-    "main.js": "/forum-app/static/js/main.a71928ad.js",
+    "main.js": "/forum-app/static/js/main.a44bf8bd.js",
     "index.html": "/forum-app/index.html"
   },
   "entrypoints": [
     "static/css/main.96437dfd.css",
-    "static/js/main.a71928ad.js"
+    "static/js/main.a44bf8bd.js"
   ]
 }
