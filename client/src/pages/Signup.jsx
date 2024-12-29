@@ -152,7 +152,7 @@ const Signup = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/auth/signup",
+        "https://forum-app-backend-om3r.onrender.com/api/auth/signup",
         {
           username,
           email,

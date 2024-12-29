@@ -24,7 +24,7 @@ const Chat = () => {
         const fetchUsername = async () => {
             try {
                 const { data } = await axios.get(
-                    "https://forum-app-frontend-om3r.onrender.com//api/auth/getusername",
+                    "https://forum-app-frontend-om3r.onrender.com/api/auth/getusername",
                     { withCredentials: true }
                 );
 
@@ -51,7 +51,7 @@ const Chat = () => {
         const fetchMessages = async () => {
             try {
                 const { data: messagesData } = await axios.get(
-                    "http://localhost:4000/api/chat/messages",
+                    "https://forum-app-frontend-om3r.onrender.com/api/chat/messages",
                     { withCredentials: true }
                 );
                 setMessages(messagesData);

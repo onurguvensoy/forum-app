@@ -38,7 +38,7 @@ const Navbar = () => {
     try {
       // Call logout endpoint
       await axios.post(
-        "https://forum-app-frontend-om3r.onrender.com/api/auth/logout",
+        "https://forum-app-backend-om3r.onrender.com/api/auth/logout",
         {},
         { withCredentials: true }
       );

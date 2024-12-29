@@ -32,7 +32,7 @@ const CommunityChat = () => {
       try {
         // First verify the token
         const { data } = await axios.post(
-          "http://localhost:4000/api/auth/verify",
+          "https://forum-app-backend-om3r.onrender.com/api/auth/verify",
           {},
           { withCredentials: true }
         );

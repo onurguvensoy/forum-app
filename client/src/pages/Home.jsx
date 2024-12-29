@@ -23,7 +23,7 @@ const Home = () => {
 
       try {
         const { data } = await axios.post(
-          "https://forum-app-frontend-om3r.onrender.com//api/auth/verify",
+          "https://forum-app-backend-om3r.onrender.com/api/auth/verify",
           {},
           { 
             withCredentials: true,
@@ -54,7 +54,7 @@ const Home = () => {
 
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/auth/getusername",
+          "https://forum-app-backend-om3r.onrender.com/api/auth/getusername",
           {
             withCredentials: true,
             headers: {
