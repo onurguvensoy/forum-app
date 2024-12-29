@@ -8,7 +8,7 @@ import { AuthProvider } from './utils/AutContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <HashRouter basename={process.env.REACT_APP_BASE_PATH}>
+  <HashRouter>
     <AuthProvider>
       <UserProvider>
         <App /> 

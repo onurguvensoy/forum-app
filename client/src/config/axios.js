@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_BASE_URL } from './api';
+import { API_BASE_URL, FRONTEND_URL } from './api';
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
   },
 });
 
-// Add a request interceptor to add auth token and handle base path
+// Add a request interceptor to add auth token
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token='));
@@ -17,9 +17,10 @@ axiosInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token.split('=')[1]}`;
     }
 
-    // Add base path for production
+    // Add CORS headers in production
     if (process.env.NODE_ENV === 'production') {
-      config.url = `${process.env.REACT_APP_BASE_PATH}${config.url}`;
+      config.headers['Origin'] = FRONTEND_URL;
+      config.headers['Access-Control-Allow-Origin'] = FRONTEND_URL;
     }
 
     return config;
@@ -34,10 +35,11 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized access
-      window.location.href = process.env.NODE_ENV === 'production' 
-        ? `${process.env.REACT_APP_BASE_PATH}/login`
+      // Handle unauthorized access with correct base path
+      const loginPath = process.env.NODE_ENV === 'production'
+        ? `${FRONTEND_URL}/#/login`
         : '/login';
+      window.location.href = loginPath;
     }
     return Promise.reject(error);
   }
