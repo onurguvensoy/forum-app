@@ -37,7 +37,7 @@ mongoose
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:3000", 
+    origin: "https://forum-app-frontend-om3r.onrender.com/", 
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
