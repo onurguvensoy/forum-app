@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import EntryDetails from "./pages/EntryDetails";
+import { CommunityChat } from "./pages";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -18,6 +19,11 @@ function App() {
         <Route path="/entry/:id" element={
           <ProtectedRoute>
             <EntryDetails />
+          </ProtectedRoute>
+        } />
+        <Route path="/community-chat" element={
+          <ProtectedRoute>
+            <CommunityChat />
           </ProtectedRoute>
         } />
       </Routes>

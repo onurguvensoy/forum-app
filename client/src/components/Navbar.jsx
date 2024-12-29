@@ -1,165 +1,51 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
-  AppBar, Toolbar, IconButton, Typography, InputBase, Button,
-  Box, Menu, MenuItem, Avatar, Divider
-} from '@mui/material';
-import { 
-  Search as SearchIcon,
+  Search,
+  NotificationsNone,
+  Chat,
   AccountCircle,
-  ArrowDropDown,
-  Notifications,
-  Chat
+  KeyboardArrowDown
 } from '@mui/icons-material';
-import { styled, alpha } from '@mui/material/styles';
 import './Navbar.css';
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: '20px',
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  width: '100%',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '40ch',
-    },
-  },
-}));
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [cookies, removeCookie] = useCookies(['token']);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const isAuthenticated = Boolean(cookies.token);
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    removeCookie('token');
-    navigate('/login');
-  };
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: '#1a1a1a' }}>
-      <Toolbar>
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
-          onClick={() => navigate('/')}
-        >
+    <nav className="navbar">
+      <div className="navbar-content">
+        <Link to="/" className="navbar-brand">
           ForWhom
-        </Typography>
+        </Link>
 
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
+        <div className="navbar-search">
+          <Search className="search-icon" />
+          <input
+            type="text"
             placeholder="Search ForWhom..."
-            inputProps={{ 'aria-label': 'search' }}
+            aria-label="Search"
           />
-        </Search>
+        </div>
 
-        <Box sx={{ flexGrow: 1 }} />
-        
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          {isAuthenticated && (
-            <>
-              <IconButton 
-                color="inherit" 
-                size="large"
-                onClick={() => navigate('/community-chat')}
-                title="Community Chat"
-              >
-                <Chat />
-              </IconButton>
-              <IconButton color="inherit" size="large">
-                <Notifications />
-              </IconButton>
-            </>
-          )}
+        <div className="navbar-actions">
+          <Link to="/community-chat" className="navbar-action" title="Community Chat">
+            <Chat />
+          </Link>
           
-          {isAuthenticated ? (
-            <>
-              <Button
-                color="inherit"
-                onClick={handleMenu}
-                startIcon={<AccountCircle />}
-                endIcon={<ArrowDropDown />}
-                sx={{ ml: 1, textTransform: 'none' }}
-              >
-                Account
-              </Button>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-                sx={{ mt: 1 }}
-              >
-                <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
-                <MenuItem onClick={() => navigate('/settings')}>Settings</MenuItem>
-                <Divider />
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
-            </>
-          ) : (
-            <>
-              <Button
-                color="inherit"
-                onClick={() => navigate('/login')}
-                sx={{ textTransform: 'none' }}
-              >
-                Login
-              </Button>
-              <Button
-                color="inherit"
-                onClick={() => navigate('/signup')}
-                sx={{ textTransform: 'none' }}
-              >
-                Sign Up
-              </Button>
-            </>
-          )}
-        </Box>
-      </Toolbar>
-    </AppBar>
+          <button className="navbar-action" title="Notifications">
+            <NotificationsNone />
+            <span className="notification-badge">3</span>
+          </button>
+
+          <button className="account-button">
+            <div className="avatar">O</div>
+            <span>Account</span>
+            <KeyboardArrowDown />
+          </button>
+        </div>
+      </div>
+    </nav>
   );
 };
 

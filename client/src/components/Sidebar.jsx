@@ -1,47 +1,61 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { 
+  Home,
+  TrendingUp,
+  Add,
+  Chat,
+  Bookmark,
+  Settings,
+  Notifications,
+  Person,
+  ExploreOutlined,
+  DarkMode
+} from '@mui/icons-material';
 import './Sidebar.css';
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const menuItems = [
+    { icon: <Home />, text: 'Home', path: '/' },
+    { icon: <TrendingUp />, text: 'Trending', path: '/trending' },
+    { icon: <ExploreOutlined />, text: 'Explore', path: '/explore' },
+    { icon: <Chat />, text: 'Community Chat', path: '/community-chat' },
+    { icon: <Bookmark />, text: 'Bookmarks', path: '/bookmarks' },
+    { icon: <Notifications />, text: 'Notifications', path: '/notifications' },
+    { icon: <Person />, text: 'Profile', path: '/profile' },
+  ];
+
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <Box className="sidebar-container">
-      <div className="sidebar-header">My Forum</div>
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/')}>
-            <ListItemIcon>
-              <HomeIcon />
-            </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/trending')}>
-            <ListItemIcon>
-              <TrendingUpIcon />
-            </ListItemIcon>
-            <ListItemText primary="Trending" />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => navigate('/new')}>
-            <ListItemIcon>
-              <NewReleasesIcon />
-            </ListItemIcon>
-            <ListItemText primary="New" />
-          </ListItemButton>
-        </ListItem>
-        {/* ...additional sections and links... */}
-      </List>
-      <Divider />
-      <div className="sidebar-footer">© 2023 My Forum</div>
-    </Box>
+    <div className="sidebar">
+      <div className="menu-items">
+        {menuItems.map((item) => (
+          <button
+            key={item.path}
+            className={`menu-item ${isActive(item.path) ? 'active' : ''}`}
+            onClick={() => navigate(item.path)}
+          >
+            {item.icon}
+            <span>{item.text}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="sidebar-footer">
+        <button className="menu-item">
+          <Settings />
+          <span>Settings</span>
+        </button>
+        <button className="menu-item">
+          <DarkMode />
+          <span>Theme</span>
+        </button>
+      </div>
+    </div>
   );
 };
 

@@ -1,182 +1,147 @@
 .navbar {
-  background: #111111;
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid #333333;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  padding: 0.5rem 0;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 64px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
   z-index: 1000;
+  padding: 0 24px;
 }
 
-.navbar-container {
-  background-color: transparent;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
+.navbar-content {
+  max-width: 1400px;
   height: 100%;
-  width: 100%;
-}
-
-.navbar-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-right: 2rem;
-  color: white;
-  margin: 0;
-  padding: 0;
-}
-
-.search-container {
-  flex: 1;
-  max-width: 600px;
-  position: relative;
-  margin: 0 2rem;
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.5rem 1rem 0.5rem 2.5rem;
-  background: rgba(17, 17, 17, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  color: white;
-}
-
-.search-icon {
-  position: absolute;
-  left: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0.7;
-}
-
-.nav-items {
+  margin: 0 auto;
   display: flex;
-  gap: 1rem;
   align-items: center;
+  justify-content: space-between;
 }
 
-.nav-btn, .profile-btn, .mobile-menu-btn {
-  background: transparent;
-  border: none;
-  color: white;
-  padding: 0.5rem;
-  position: relative;
-  cursor: pointer;
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-.badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: #dc2626;
-  color: white;
-  font-size: 0.75rem;
-  padding: 0.1rem 0.3rem;
-  border-radius: 10px;
-  transform: translate(50%, -50%);
-}
-
-.dropdown-menu {
-  background: #111111;
-  border: 1px solid #333333;
-  border-radius: 4px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  min-width: 200px;
-  z-index: 1000;
-}
-
-.profile-menu {
-  right: 1rem;
-  top: 100%;
-}
-
-.dropdown-menu button {
-  width: 100%;
-  text-align: left;
-  padding: 0.75rem 1rem;
-  background: transparent;
-  border: none;
-  color: white;
-  cursor: pointer;
-}
-
-.dropdown-menu button:hover {
-  background: rgba(17, 17, 17, 0.8);
-}
-
-.mobile-menu-btn {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .desktop-nav {
-    display: none;
-  }
-
-  .mobile-menu-btn {
-    display: block;
-  }
-
-  .mobile-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    left: 0;
-    margin: 0.5rem;
-  }
-
-  .search-container {
-    margin: 0;
-  }
+.navbar-brand:hover {
+  color: #2563eb;
 }
 
 .navbar-search {
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  background: #111111;
-  border-radius: 4px;
-  padding: 0.5rem;
+  flex: 1;
+  max-width: 600px;
+  margin: 0 24px;
+  position: relative;
 }
 
 .navbar-search input {
-  background: none;
-  border: none;
-  color: #ffffff;
-  flex-grow: 1;
-  padding: 0.5rem;
+  width: 100%;
+  padding: 10px 16px;
+  padding-left: 40px;
+  background: #222;
+  border: 1px solid #333;
+  border-radius: 9999px;
+  color: #fff;
+  font-size: 0.875rem;
+  transition: all 0.2s;
 }
 
-.navbar-search input::placeholder {
-  color: #cccccc;
+.navbar-search input:focus {
+  outline: none;
+  background: #2a2a2a;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
-.navbar-search button {
-  background: none;
-  border: none;
-  color: #ffffff;
-  cursor: pointer;
+.navbar-search .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 1.25rem;
 }
 
-.navbar-links {
+.navbar-actions {
   display: flex;
   align-items: center;
+  gap: 16px;
 }
 
-.navbar-link {
-  margin-left: 1rem;
-  color: #ffffff;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.2s ease;
+.navbar-action {
+  position: relative;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s;
 }
 
-.navbar-link:hover {
-  color: #cccccc;
+.navbar-action:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-action svg {
+  font-size: 1.5rem;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  border: 2px solid #1a1a1a;
+}
+
+.account-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 9999px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.account-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.account-button .avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar-search {
+    display: none;
+  }
+  
+  .navbar {
+    padding: 0 16px;
+  }
 }

@@ -1,73 +1,102 @@
-.sidebar-container {
-  background: #111111;
-  color: #ffffff;
-  width: 240px;
-  height: 100vh;
-  padding: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  border-right: 1px solid #333333;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow-y: auto;
+.sidebar {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  width: 250px;
+  background: #1a1a1a;
+  padding: 20px 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-right: 1px solid #333;
 }
 
-.sidebar-header {
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 12px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: #888;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.menu-item.active {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.menu-item svg {
   font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+}
+
+.menu-item span {
+  font-weight: 500;
 }
 
 .sidebar-footer {
-  font-size: 0.875rem;
-  color: #cccccc;
+  padding: 0 12px;
   margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid #333333;
+  border-top: 1px solid #333;
+  padding-top: 12px;
 }
 
-.MuiList-root {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  margin-left: 0;
+/* Hover animations */
+.menu-item {
+  position: relative;
+  overflow: hidden;
 }
 
-.MuiListItem-root {
+.menu-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
   width: 100%;
-  margin-right: 0;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.2s;
 }
 
-.MuiListItemButton-root {
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-  transition: background-color 0.2s ease;
+.menu-item:hover::after {
+  opacity: 1;
+  transform: scale(1);
 }
 
-.MuiListItemButton-root:hover {
-  background-color: #2a2a2a;
+/* Active state animations */
+.menu-item.active svg {
+  transform: scale(1.1);
+  transition: transform 0.2s;
 }
 
-.MuiListItemIcon-root {
-  color: #ffffff;
-}
-
-.MuiDivider-root {
-  background-color: #333333;
-}
-
-.sidebar-menu-link:hover {
-  background: #111111;
-  color: #ffffff;
-}
-
-.dropdown-menu {
-  background: #111111;
-  border: 1px solid #333333;
-}
-
-.dropdown-menu button:hover {
-  background: rgba(17, 17, 17, 0.8);
+/* Notification badge */
+.menu-item .notification-badge {
+  background: #ef4444;
+  color: white;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  margin-left: auto;
 }
