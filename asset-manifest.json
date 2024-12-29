@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/forum-app/static/css/main.6dce8db6.css",
+    "main.js": "/forum-app/static/js/main.78640a2a.js",
+    "index.html": "/forum-app/index.html",
+    "main.6dce8db6.css.map": "/forum-app/static/css/main.6dce8db6.css.map",
+    "main.78640a2a.js.map": "/forum-app/static/js/main.78640a2a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6dce8db6.css",
+    "static/js/main.78640a2a.js"
+  ]
+}
