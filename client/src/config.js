@@ -1,12 +1,6 @@
-const isDevelopment = process.env.NODE_ENV === 'development';
-
 const config = {
-  API_URL: isDevelopment 
-    ? 'http://localhost:4000/api' 
-    : 'https://your-backend-url.onrender.com/api',
-  SOCKET_URL: isDevelopment
-    ? 'ws://localhost:4000'
-    : 'wss://your-backend-url.onrender.com'
+  API_URL: process.env.REACT_APP_API_URL || 'http://localhost:4000/api',
+  SOCKET_URL: process.env.REACT_APP_SOCKET_URL || 'ws://localhost:4000'
 };
 
 export default config; 
