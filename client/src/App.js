@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import EntryDetails from "./pages/EntryDetails";
-import { CommunityChat } from "./pages";
+import CommunityChat from "./pages/CommunityChat";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {

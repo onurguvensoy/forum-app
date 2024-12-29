@@ -9,7 +9,10 @@ exports.authenticateUser = async (req, res, next) => {
       return res.status(401).json({ status: false, message: "No token provided" });
     }
 
-    const decoded = jwt.verify(token, process.env.TOKEN_KEY);  
+    // Clean the token if it comes with 'Bearer ' prefix
+    const cleanToken = token.startsWith('Bearer ') ? token.slice(7) : token;
+
+    const decoded = jwt.verify(cleanToken, process.env.TOKEN_KEY);  
 
     const user = await User.findById(decoded.id);
     if (!user) {
@@ -19,7 +22,7 @@ exports.authenticateUser = async (req, res, next) => {
     req.user = user;
     next(); 
   } catch (error) {
-    console.error(error);
+    console.error("Authentication error:", error);
     res.status(401).json({ status: false, message: "Authentication failed" });
   }
 };
@@ -30,15 +33,24 @@ exports.verifyToken = (req, res) => {
     return res.json({ status: false });
   }
   
-  jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
-    if (err) {
-      return res.json({ status: false });
-    }
+  try {
+    // Clean the token if it comes with 'Bearer ' prefix
+    const cleanToken = token.startsWith('Bearer ') ? token.slice(7) : token;
     
-    const user = await User.findById(data.id);
-    if (user) {
-      return res.json({ status: true, user: user.username });
-    }
+    const decoded = jwt.verify(cleanToken, process.env.TOKEN_KEY);
+    User.findById(decoded.id)
+      .then(user => {
+        if (user) {
+          return res.json({ status: true, user: user.username });
+        }
+        return res.json({ status: false });
+      })
+      .catch(err => {
+        console.error("Token verification error:", err);
+        return res.json({ status: false });
+      });
+  } catch (err) {
+    console.error("Token verification error:", err);
     return res.json({ status: false });
-  });
+  }
 };

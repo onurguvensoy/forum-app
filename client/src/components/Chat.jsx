@@ -25,12 +25,7 @@ const Chat = () => {
             try {
                 const { data } = await axios.get(
                     "http://localhost:4000/api/auth/getusername",
-                    {
-                        withCredentials: true,
-                        headers: {
-                            Authorization: `Bearer ${document.cookie.split('=')[1]}`
-                        }
-                    }
+                    { withCredentials: true }
                 );
 
                 if (data.status) {
@@ -50,21 +45,14 @@ const Chat = () => {
 
     useEffect(() => {
         socketRef.current = io("http://localhost:4000", {
-            auth: {
-                token: document.cookie.split('=')[1]
-            }
+            withCredentials: true
         });
 
         const fetchMessages = async () => {
             try {
                 const { data: messagesData } = await axios.get(
                     "http://localhost:4000/api/chat/messages",
-                    {
-                        withCredentials: true,
-                        headers: {
-                            Authorization: `Bearer ${document.cookie.split('=')[1]}`
-                        }
-                    }
+                    { withCredentials: true }
                 );
                 setMessages(messagesData);
                 scrollToBottom();
@@ -129,12 +117,7 @@ const Chat = () => {
             await axios.post(
                 "http://localhost:4000/api/chat/messages",
                 newMessage,
-                {
-                    withCredentials: true,
-                    headers: {
-                        Authorization: `Bearer ${document.cookie.split('=')[1]}`
-                    }
-                }
+                { withCredentials: true }
             );
             socketRef.current.emit("message", newMessage);
             setMessages((prev) => [...prev, newMessage]);
