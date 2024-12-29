@@ -15,7 +15,7 @@ html,
 body {
   height: 100%;
   width: 100%;
-  background: black;
+  background: #111111;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #fff;
 }
@@ -24,11 +24,11 @@ body {
     display: flex;
     justify-content: center; /* Yatayda ortala */
     align-items: center; /* Dikeyde ortala */
-    height: 100vh; /* Yüksekliði tam ekran yap */
+    height: 100vh; /* Yï¿½ksekliï¿½i tam ekran yap */
 }
 
 .form_container {
-    background-color: #fff;
+    background-color: #111111;
     padding: 2rem 3rem;
     border-radius: 0.5rem;
     width: 100%;
@@ -86,38 +86,75 @@ span a {
 
 .hero {
   display: flex;
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  margin-top: 64px; /* Height of navbar */
+  min-height: calc(100vh - 64px);
+  background-color: #111111;
+  gap: 2rem;
+  padding: 2rem;
 }
 
 .content {
   display: flex;
-  justify-content: center;
-  width: 65%;
-  gap: 1rem;
+  justify-content: space-between;
+  width: 100%; /* Make content full width */
   margin-top: 5%;
-}
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  max-width: fit-content;
   gap: 1rem;
-  padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 0.5rem;
+}
+
+
+.trends {
   width: 100%;
+  height: 100%;
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  overflow: hidden; /* Ensure it is not scrollable */
+  position: sticky; /* Keep it in place when scrolling */
+  top: 0; /* Stick to the top */
+}
 
+.sidebar {
 
+  top: calc(64px + 2rem); /* Navbar height + padding */
+  height: fit-content;
+  min-width: 240px;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .hero {
+    padding: 64px 1rem 1rem 1rem;
+    gap: 1rem;
+  }
+  
+  .entries-section {
+    max-width: 100%;
+    margin-right: 1rem;
+  }
+  
+  .trends-section {
+    width: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .sidebar, .trends-section {
+    position: static;
+    width: 100%;
+  }
 }
 
 .entry {
   padding: 16px; 
-  border: 1px solid #e0e0e0; 
-  border-radius: 8px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  margin-bottom: 16px; 
+  box-shadow: none; /* Remove box shadow */
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -160,7 +197,7 @@ span a {
   margin-top: 10%;
   width: 80%;
   max-height: fit-content;
-  background-color: #2c2c2c; /* Dark background for the form */
+  background-color: #111111; /* Dark background for the form */
   color: #ffffff; /* Light text color */
   padding: 20px;
   border-radius: 8px;
@@ -181,7 +218,7 @@ span a {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
-  background-color: #3c3c3c; 
+  background-color: #111111; 
   border: 1px solid #555555; 
   border-radius: 4px;
   color: #ffffff;
@@ -236,7 +273,7 @@ span a {
   height: 600px;
   display: flex;
   flex-direction: column;
-  background: #1f1f1f;
+  background: #111111;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
@@ -245,7 +282,7 @@ span a {
 /* Header */
 .chat-header {
   padding: 15px;
-  background: #252525;
+  background: #111111;
   text-align: center;
   border-bottom: 1px solid #333;
 }
@@ -265,30 +302,30 @@ span a {
   gap: 20px;
 }
 
-/* Mesaj kutularý */
+/* Mesaj kutularï¿½ */
 .message {
-    max-width: 80%; /* Mesaj geniþliði */
+    max-width: 80%; /* Mesaj geniï¿½liï¿½i */
     padding: 10px;
     border-radius: 10px;
     position: relative;
     line-height: 1.4;
-    word-break: break-word; /* Kelimelerin satýr sonlarýnda bölünmesini saðlar */
-    overflow-wrap: break-word; /* Uzun kelimeleri bölmek için */
-    margin-bottom: 10px; /* Mesajlar arasýndaki boþluk */
+    word-break: break-word; /* Kelimelerin satï¿½r sonlarï¿½nda bï¿½lï¿½nmesini saï¿½lar */
+    overflow-wrap: break-word; /* Uzun kelimeleri bï¿½lmek iï¿½in */
+    margin-bottom: 10px; /* Mesajlar arasï¿½ndaki boï¿½luk */
 }
 
 .message p {
   margin-bottom: 5px;
 }
 
-/* Gönderilen mesajlar */
+/* Gï¿½nderilen mesajlar */
 .message.sent {
     background: #4caf50;
     color: #fff;
     align-self: flex-end;
 }
 
-/* Alýnan mesajlar */
+/* Alï¿½nan mesajlar */
 .message.received {
     background: #3a3a3a;
     color: #eaeaea;
@@ -297,7 +334,7 @@ span a {
 
 .timestamp {
     font-size: 12px; /* Daha belirgin boyut */
-    color: #ffcc00; /* Kontrastý artýrmak için parlak bir renk */
+    color: #ffcc00; /* Kontrastï¿½ artï¿½rmak iï¿½in parlak bir renk */
     margin-top: 5px;
     display: block;
     text-align: right;
@@ -306,7 +343,7 @@ span a {
 /* Chat Input */
 .chat-input {
   padding: 10px;
-  background: #252525;
+  background: #111111;
   display: flex;
   align-items: center;
   border-top: 1px solid #333;
@@ -342,38 +379,29 @@ span a {
   background: #8ab4f8;
 }
 
-.entry-content {
-    word-break: break-word; /* Kelimelerin satýr sonlarýnda bölünmesini saðlar */
-    overflow-wrap: break-word; /* Uzun URL'lerin veya kelimelerin bölünmesini saðlar */
-    white-space: pre-wrap; /* Boþluklarý ve satýr sonlarýný korur */
-}
 
 .entry-content {
+    word-break: break-word;
+    overflow-wrap: break-word; 
+    white-space: pre-wrap; 
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Öðeler arasýndaki boþluk */
-    padding: 16px; /* Ýçerik dolgu */
-    background-color: #2c2c2c; /* Hafif koyu bir arka plan */
-    border-radius: 8px; /* Köþelerin yuvarlatýlmasý */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+    padding: 16px; /* ï¿½ï¿½erik dolgu */
+    border-radius: 8px; /* Kï¿½ï¿½elerin yuvarlatï¿½lmasï¿½ */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Hafif gï¿½lge */
     color: #fff;
-    max-width: 600px;
-    margin: 0 auto; /* Ortalamak için */
 }
 
 .entry-content h2 {
     font-size: 1.8rem;
-    color: #8ab4f8; /* Baþlýk rengi */
+    color: #ffffff; /* Baï¿½lï¿½k rengi */
     margin: 0;
 }
 
 .entry-content p {
     font-size: 1rem;
     line-height: 1.6;
-    color: #d1d1d1; /* Açýk gri ton */
+    color: #ffffff; /* Aï¿½ï¿½k gri ton */
     margin: 0;
 }
 
-.entry {
-    max-width: 500px // istediðiniz geniþliði girin
-}

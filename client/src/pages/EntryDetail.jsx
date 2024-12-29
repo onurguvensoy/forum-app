@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import MuiNavbar from "../components/MuiNavbar";
-import Sidebar from "../components/MuiSidebar";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
 
 const EntryDetail = () => {
@@ -20,7 +20,7 @@ const EntryDetail = () => {
     return (
         <div>
             <div>
-                <MuiNavbar />
+                <Navbar />
             </div>
             <div className="hero">
                 <div className="sidebar">

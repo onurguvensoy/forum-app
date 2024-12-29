@@ -1,0 +1,149 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #111111;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 800px) 440px;
+  gap: 0;
+  padding: 0;
+  margin-top: 64px;
+  min-height: calc(100vh - 64px);
+  height: calc(100vh - 64px);
+  background-color: #111111;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero > div {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  height: 100%;
+}
+
+.hero > div:last-child {
+  border-right: none;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 64px;
+  width: 240px;
+  height: calc(100vh - 64px);
+  background-color: #111111;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.entries-section {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #333333 #1a1a1a;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #111111;
+  z-index: 5;
+  grid-column: 2;
+}
+
+.entries-section > * {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.entries-section > *:last-child {
+  border-bottom: none;
+}
+
+.main-content {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  background-color: #111111;
+  z-index: 5;
+  grid-column: 2;
+}
+
+.trends-section {
+  position: fixed;
+  right: 0;
+  top: 64px;
+  width: 440px;
+  height: calc(100vh - 64px);
+  background-color: #111111;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  z-index: 10;
+}
+
+@media (max-width: 1400px) {
+  .hero {
+    grid-template-columns: 240px 1fr;
+  }
+  
+  .entries-section,
+  .main-content {
+    width: auto;
+    margin: 0;
+    max-width: 800px;
+  }
+  
+  .trends-section {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 0;
+    height: auto;
+    min-height: calc(100vh - 64px);
+  }
+
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .entries-section,
+  .main-content {
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: auto;
+    border: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444444;
+} 

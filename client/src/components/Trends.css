@@ -1,0 +1,76 @@
+.trends-container {
+  padding: 1rem;
+}
+
+.trends-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.trending-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trending-entry {
+  padding: 1rem;
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trending-entry:hover {
+  background-color: #222222;
+}
+
+.trending-entry-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.trending-entry-title {
+  margin: 0;
+  font-size: 1rem;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trending-entry-username {
+  display: block;
+  font-size: 0.875rem;
+  color: #888888;
+  margin-top: 0.25rem;
+}
+
+.trending-entry-stats {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #888888;
+  font-size: 0.875rem;
+}
+
+.stat-item svg {
+  font-size: 1.25rem;
+}
+
+.stat-item span {
+  min-width: 1rem;
+  text-align: center;
+}

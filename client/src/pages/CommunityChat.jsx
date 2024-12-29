@@ -1,25 +1,16 @@
-import React from 'react'
-import MuiNavbar from '../components/MuiNavbar'
-import Sidebar from '../components/MuiSidebar'
-import Chat from '../components/Chat'
+import React from 'react';
+import Layout from '../components/Layout';
+import Chat from '../components/Chat';
+import './CommunityChat.css';
 
 const CommunityChat = () => {
- 
   return (
-    <div>
-    <div>
-      <MuiNavbar></MuiNavbar>
-    </div>
-    <div className="hero">
-    <div className="sidebar">
-      <Sidebar></Sidebar>
-    </div>
-    <div className='chat'>
-      <Chat> </Chat>
-    </div>
-    </div>
-    </div>
-);
-}
+    <Layout>
+      <div className="chat-wrapper">
+        <Chat />
+      </div>
+    </Layout>
+  );
+};
 
-export default CommunityChat
+export default CommunityChat;

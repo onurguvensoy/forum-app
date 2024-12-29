@@ -1,0 +1,135 @@
+.entry {
+  padding: 1rem;
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.entry-title {
+  margin: 0;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.entry-title:hover {
+  text-decoration: underline;
+}
+
+.entry-username {
+  font-size: 0.875rem;
+  color: #888888;
+}
+
+.entry-content {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+  color: #dddddd;
+}
+
+.entry-actions {
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.action-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: none;
+  border: none;
+  color: #888888;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.action-button:hover {
+  color: #ffffff;
+}
+
+.action-button.active {
+  color: #2563eb;
+}
+
+.action-button svg {
+  font-size: 1.25rem;
+}
+
+.action-button span {
+  min-width: 1rem;
+  text-align: center;
+}
+
+.reply-form {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reply-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #111111;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 0.875rem;
+  resize: none;
+  margin-bottom: 0.5rem;
+}
+
+.reply-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.reply-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.reply-actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reply-actions button[type="button"] {
+  background-color: transparent;
+  border: 1px solid #333333;
+  color: #ffffff;
+}
+
+.reply-actions button[type="button"]:hover {
+  background-color: #222222;
+}
+
+.reply-actions button[type="submit"] {
+  background-color: #2563eb;
+  border: none;
+  color: #ffffff;
+}
+
+.reply-actions button[type="submit"]:hover {
+  background-color: #1d4ed8;
+} 

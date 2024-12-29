@@ -12,9 +12,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyToken = async () => {
       try {
-        const { data } = await axios.get("http://localhost:4000/verifytoken", {
-          withCredentials: true,
-        });
+        const { data } = await axios.post(
+          "http://localhost:4000/api/auth/verify",
+          {},
+          { withCredentials: true }
+        );
         setUser(data.user);
       } catch (err) {
         console.error("Token verification failed:", err);

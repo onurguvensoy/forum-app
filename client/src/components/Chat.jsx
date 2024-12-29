@@ -5,8 +5,8 @@ import { useUser } from "../utils/userProvider";
 import { toast } from "react-toastify";
 import { filterAllWords, hasMinimumChars, hasExceededCharLimit } from "../utils/wordFilter";
 
-const MIN_MESSAGE_CHARS = 3; // Minimum karakter sınırı
-const MAX_MESSAGE_CHARS = 100; // Maksimum karakter sınırı
+const MIN_MESSAGE_CHARS = 3; 
+const MAX_MESSAGE_CHARS = 100;
 
 const Chat = () => {
     const { username, setUsername } = useUser();
@@ -23,9 +23,15 @@ const Chat = () => {
     useEffect(() => {
         const fetchUsername = async () => {
             try {
-                const { data } = await axios.get("http://localhost:4000/getusername", {
-                    withCredentials: true,
-                });
+                const { data } = await axios.get(
+                    "http://localhost:4000/api/auth/getusername",
+                    {
+                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${document.cookie.split('=')[1]}`
+                        }
+                    }
+                );
 
                 if (data.status) {
                     setUsername(data.username);
@@ -37,16 +43,28 @@ const Chat = () => {
             }
         };
 
-        fetchUsername();
-    }, [setUsername]);
+        if (!username) {
+            fetchUsername();
+        }
+    }, [setUsername, username]);
 
     useEffect(() => {
-        socketRef.current = io("http://localhost:4000");
+        socketRef.current = io("http://localhost:4000", {
+            auth: {
+                token: document.cookie.split('=')[1]
+            }
+        });
 
         const fetchMessages = async () => {
             try {
                 const { data: messagesData } = await axios.get(
-                    "http://localhost:4000/getmessages"
+                    "http://localhost:4000/api/chat/messages",
+                    {
+                        withCredentials: true,
+                        headers: {
+                            Authorization: `Bearer ${document.cookie.split('=')[1]}`
+                        }
+                    }
                 );
                 setMessages(messagesData);
                 scrollToBottom();
@@ -108,7 +126,16 @@ const Chat = () => {
         };
 
         try {
-            await axios.post("http://localhost:4000/savemessages", newMessage);
+            await axios.post(
+                "http://localhost:4000/api/chat/messages",
+                newMessage,
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${document.cookie.split('=')[1]}`
+                    }
+                }
+            );
             socketRef.current.emit("message", newMessage);
             setMessages((prev) => [...prev, newMessage]);
             setMessage("");
@@ -121,9 +148,6 @@ const Chat = () => {
 
     return (
         <div className="chat-container">
-            <div className="chat-header">
-                <h3>Community Chat</h3>
-            </div>
             <div className="chat-messages">
                 {messages.length > 0 ? (
                     messages.map((msg, index) => (

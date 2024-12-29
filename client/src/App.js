@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import { CreateEntry, Login, Signup,Home,EntryDetail,CommunityChat } from "./pages";
+import { CreateEntry, Login, Signup, Home, EntryDetail, CommunityChat } from "./pages";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
 
 function App() {
   return (
@@ -17,13 +17,28 @@ function App() {
         theme="dark"
       />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/CreateEntry" element={<CreateEntry />} />
-        <Route path="/CommunityChat" element={<CommunityChat />} />
-        <Route path="/entries/:id" element={<EntryDetail/>} />
-
+        <Route path="/" element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        } />
+        <Route path="/create-entry" element={
+          <ProtectedRoute>
+            <CreateEntry />
+          </ProtectedRoute>
+        } />
+        <Route path="/community-chat" element={
+          <ProtectedRoute>
+            <CommunityChat />
+          </ProtectedRoute>
+        } />
+        <Route path="/entries/:id" element={
+          <ProtectedRoute>
+            <EntryDetail />
+          </ProtectedRoute>
+        } />
       </Routes>
     </div>
   );
