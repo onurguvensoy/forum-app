@@ -6,7 +6,8 @@ const {
   getEntry,
   createEntry,
   likeEntry,
-  dislikeEntry
+  dislikeEntry,
+  addReply
 } = require("../Controllers/EntryController");
 const { authenticateUser } = require("../Middlewares/AuthMiddleware");
 
@@ -19,5 +20,6 @@ router.get("/:id", getEntry);
 router.post("/", authenticateUser, createEntry);
 router.post("/:id/like", authenticateUser, likeEntry);
 router.post("/:id/dislike", authenticateUser, dislikeEntry);
+router.post("/:id/reply", authenticateUser, addReply);
 
 module.exports = router; 

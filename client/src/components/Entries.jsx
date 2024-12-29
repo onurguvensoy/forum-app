@@ -62,7 +62,7 @@ const Entries = () => {
     setEntries(prevEntries => 
       prevEntries.map(entry => 
         entry._id === entryId 
-          ? { ...entry, likes: newState.likes, dislikes: newState.dislikes }
+          ? { ...entry, ...newState }
           : entry
       )
     );

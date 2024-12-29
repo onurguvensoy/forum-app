@@ -1,0 +1,136 @@
+.entry-details-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.reply-section {
+  margin-top: 20px;
+  background: #1a1a1a;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.reply-form {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.reply-form textarea {
+  width: 100%;
+  padding: 15px;
+  background: #2a2a2a;
+  border: 1px solid #333;
+  border-radius: 8px;
+  resize: vertical;
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #fff;
+  min-height: 100px;
+}
+
+.reply-form textarea:focus {
+  outline: none;
+  border-color: #1da1f2;
+}
+
+.reply-form button {
+  background-color: #1da1f2;
+  color: white;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  float: right;
+  transition: background-color 0.2s;
+}
+
+.reply-form button:hover {
+  background-color: #1991db;
+}
+
+.replies-list {
+  margin-top: 30px;
+}
+
+.replies-list h3 {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.reply-item {
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  transition: background-color 0.2s;
+}
+
+.reply-item:hover {
+  background-color: #2a2a2a;
+}
+
+.reply-item:last-child {
+  border-bottom: none;
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.reply-username {
+  font-weight: bold;
+  color: #1da1f2;
+}
+
+.reply-date {
+  color: #666;
+  font-size: 12px;
+}
+
+.reply-content {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.no-replies {
+  color: #666;
+  text-align: center;
+  padding: 30px;
+  font-style: italic;
+  background: #2a2a2a;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+/* Placeholder styling */
+.reply-form textarea::placeholder {
+  color: #666;
+}
+
+/* Scrollbar styling */
+.reply-form textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+.reply-form textarea::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+.reply-form textarea::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+.reply-form textarea::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} 

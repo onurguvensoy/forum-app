@@ -1,42 +1,23 @@
-import { Route, Routes } from "react-router-dom";
-import { CreateEntry, Login, Signup, Home, EntryDetail, CommunityChat } from "./pages";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import EntryDetails from "./pages/EntryDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <div className="App">
-      <ToastContainer 
-        position="top-right"
-        autoClose={5000}
-        closeButton={false}
-        hideProgressBar={false}
-        newestOnTop={false}
-        rtl={false}
-        theme="dark"
-      />
+    <div>
+      <ToastContainer position="top-right" />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={
+        <Route path="/entry/:id" element={
           <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        } />
-        <Route path="/create-entry" element={
-          <ProtectedRoute>
-            <CreateEntry />
-          </ProtectedRoute>
-        } />
-        <Route path="/community-chat" element={
-          <ProtectedRoute>
-            <CommunityChat />
-          </ProtectedRoute>
-        } />
-        <Route path="/entries/:id" element={
-          <ProtectedRoute>
-            <EntryDetail />
+            <EntryDetails />
           </ProtectedRoute>
         } />
       </Routes>

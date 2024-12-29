@@ -4,7 +4,7 @@ const Entry = require("../Models/EntrySchema");
 const getAllEntries = async (req, res) => {
   try {
     const entries = await Entry.find()
-      .select('title content username createdAt viewCount likes dislikes likedBy dislikedBy')
+      .select('title content username createdAt viewCount likes dislikes likedBy dislikedBy replies')
       .sort({ createdAt: -1 });
 
     // Add user's interaction state if authenticated
@@ -211,11 +211,50 @@ const dislikeEntry = async (req, res) => {
   }
 };
 
+// Add a reply to an entry
+const addReply = async (req, res) => {
+  try {
+    const entry = await Entry.findById(req.params.id);
+    if (!entry) {
+      return res.status(404).json({ error: "Entry not found" });
+    }
+
+    const { content } = req.body;
+    if (!content || !content.trim()) {
+      return res.status(400).json({ error: "Reply content is required" });
+    }
+
+    if (content.length < 1 || content.length > 1000) {
+      return res.status(400).json({ 
+        error: "Reply content must be between 1 and 1000 characters" 
+      });
+    }
+
+    const reply = {
+      content: content.trim(),
+      username: req.user.username,
+      createdAt: new Date()
+    };
+
+    entry.replies.push(reply);
+    await entry.save();
+
+    res.json({
+      success: true,
+      message: "Reply added successfully",
+      reply
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllEntries,
   getTrendingEntries,
   getEntry,
   createEntry,
   likeEntry,
-  dislikeEntry
+  dislikeEntry,
+  addReply
 };

@@ -7,17 +7,34 @@ import {
   ThumbDownAlt, 
   Visibility, 
   ThumbUpOffAlt,
-  ThumbDownOffAlt
+  ThumbDownOffAlt,
+  ChatBubbleOutline
 } from '@mui/icons-material';
 import './Entry.css';
 
-const Entry = ({ _id, title, content, username, viewCount = 0, likes = 0, dislikes = 0, hasLiked = false, hasDisliked = false, onUpdate }) => {
+const Entry = ({ 
+  _id, 
+  title, 
+  content, 
+  username, 
+  viewCount = 0, 
+  likes = 0, 
+  dislikes = 0, 
+  hasLiked = false, 
+  hasDisliked = false, 
+  replies = [], 
+  onUpdate,
+  isDetailView = false
+}) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(hasLiked);
   const [isDisliked, setIsDisliked] = useState(hasDisliked);
   const [likeCount, setLikeCount] = useState(likes);
   const [dislikeCount, setDislikeCount] = useState(dislikes);
   const [views, setViews] = useState(viewCount);
+  const [showReplies, setShowReplies] = useState(isDetailView);
+  const [replyContent, setReplyContent] = useState('');
+  const [entryReplies, setEntryReplies] = useState(replies || []);
 
   // Update state when props change
   useEffect(() => {
@@ -26,7 +43,45 @@ const Entry = ({ _id, title, content, username, viewCount = 0, likes = 0, dislik
     setLikeCount(likes);
     setDislikeCount(dislikes);
     setViews(viewCount);
-  }, [hasLiked, hasDisliked, likes, dislikes, viewCount]);
+    setEntryReplies(replies || []);
+  }, [hasLiked, hasDisliked, likes, dislikes, viewCount, replies]);
+
+  const handleReplySubmit = async (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent entry click event
+
+    if (!replyContent.trim()) {
+      toast.error('Reply content is required');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:4000/api/entries/${_id}/reply`,
+        { content: replyContent },
+        { withCredentials: true }
+      );
+
+      if (response.data.success) {
+        const newReply = response.data.reply;
+        setEntryReplies(prev => [...prev, newReply]);
+        setReplyContent('');
+        toast.success('Reply added successfully');
+
+        // Notify parent of the update
+        if (onUpdate) {
+          onUpdate(_id, { replies: [...entryReplies, newReply] });
+        }
+      }
+    } catch (error) {
+      toast.error('Error adding reply');
+    }
+  };
+
+  const toggleReplies = (e) => {
+    e.stopPropagation(); // Prevent entry click event
+    setShowReplies(!showReplies);
+  };
 
   const handleLike = async (e) => {
     e.stopPropagation(); // Prevent entry click event
@@ -133,15 +188,15 @@ const Entry = ({ _id, title, content, username, viewCount = 0, likes = 0, dislik
         }
       }
       
-      navigate(`/entry/${_id}?view=true`);
+      navigate(`/entry/${_id}`);
     } catch (error) {
       console.error('Error updating view count:', error);
-      navigate(`/entry/${_id}?view=true`);
+      navigate(`/entry/${_id}`);
     }
   };
 
   return (
-    <div className="entry" onClick={handleEntryClick}>
+    <div className="entry" onClick={!isDetailView ? handleEntryClick : undefined}>
       <div className="entry-header">
         <h3 className="entry-title">{title}</h3>
         <span className="entry-username">@{username}</span>
@@ -167,8 +222,72 @@ const Entry = ({ _id, title, content, username, viewCount = 0, likes = 0, dislik
             <Visibility />
             <span>{views}</span>
           </button>
+          {!isDetailView && (
+            <button 
+              className={`action-button ${showReplies ? 'active' : ''}`}
+              onClick={toggleReplies}
+            >
+              <ChatBubbleOutline />
+              <span>{entryReplies.length}</span>
+            </button>
+          )}
         </div>
       </div>
+
+      {showReplies && !isDetailView && (
+        <div className="entry-replies" onClick={e => e.stopPropagation()}>
+          <div className="replies-list">
+            {entryReplies.length > 0 ? (
+              entryReplies.map((reply, index) => (
+                <div key={reply._id || index} className="reply-item">
+                  <div className="reply-header">
+                    <span className="reply-username">@{reply.username}</span>
+                    <span className="reply-date">
+                      {new Date(reply.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <p className="reply-content">{reply.content}</p>
+                </div>
+              ))
+            ) : (
+              <p className="no-replies">No replies yet.</p>
+            )}
+          </div>
+          
+          <form onSubmit={handleReplySubmit} className="reply-form">
+            <textarea
+              value={replyContent}
+              onChange={(e) => setReplyContent(e.target.value)}
+              placeholder="Write a reply..."
+              minLength={1}
+              maxLength={1000}
+              required
+              rows={2}
+            />
+            <button type="submit">Reply</button>
+          </form>
+        </div>
+      )}
+
+      {isDetailView && (
+        <div className="replies-list">
+          {entryReplies.length > 0 ? (
+            entryReplies.map((reply, index) => (
+              <div key={reply._id || index} className="reply-item">
+                <div className="reply-header">
+                  <span className="reply-username">@{reply.username}</span>
+                  <span className="reply-date">
+                    {new Date(reply.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+                <p className="reply-content">{reply.content}</p>
+              </div>
+            ))
+          ) : (
+            <p className="no-replies">No replies yet.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };
